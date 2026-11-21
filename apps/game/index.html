@@ -481,6 +481,26 @@ body.padmode #ctl,body.padmode #joyZ{display:none!important}
 @media (pointer:coarse){body:not(.padmode) #gOpt{display:none}}
 #s-fight.gmode #joyZ{opacity:.25;pointer-events:none}
 @media (max-height:460px){#gMsg{font-size:18px}#gLad span{font-size:10px;padding:4px 3px}}
+
+/* ===== Smartphone als Controller für P2 ===== */
+#s-phone{padding:0;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;background:#09090C}
+#s-phone.on{display:flex;flex-direction:column}
+#s-phone>*{zoom:1!important}
+#phTop{display:flex;align-items:center;gap:10px;padding:calc(env(safe-area-inset-top) + 6px) calc(env(safe-area-inset-right) + 14px) 6px calc(env(safe-area-inset-left) + 14px);font-size:13px;color:var(--mut)}
+#phTop b{font-family:var(--fd);font-size:20px;font-weight:900;color:var(--txt);letter-spacing:.03em}
+#phSt{flex:1;min-width:0;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}#phSt.ok{color:#4ade80}#phSt.bad{color:#fca5a5}
+#phRe{border:1px solid var(--line);background:transparent;color:var(--txt);border-radius:8px;padding:5px 10px;font:inherit;font-weight:700}
+#phPause{border:1px solid var(--line);background:transparent;color:var(--txt);border-radius:8px;padding:5px 10px;font:inherit;font-weight:700}
+#phPad{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:10px;padding:0 calc(env(safe-area-inset-right) + 12px) calc(env(safe-area-inset-bottom) + 12px) calc(env(safe-area-inset-left) + 12px)}
+#phJoy{position:relative;touch-action:none;border-radius:20px;background:#101116;overflow:hidden}
+#phBase{position:absolute;left:50%;top:50%;width:132px;height:132px;margin:-66px 0 0 -66px;border-radius:50%;border:3px solid rgba(255,255,255,.22);background:rgba(255,255,255,.04);pointer-events:none}
+#phKnob{position:absolute;left:50%;top:50%;width:60px;height:60px;margin:-30px 0 0 -30px;border-radius:50%;background:rgba(255,255,255,.36);pointer-events:none}
+#phBtns{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:1fr 1fr .62fr;gap:8px;min-height:0}
+.phb{min-width:0;min-height:0;padding:2px;border:2px solid #A9B4C6;border-radius:16px;background:#14161C;color:var(--txt);font-family:var(--fd);font-weight:800;font-size:clamp(16px,5vh,25px);line-height:1;touch-action:none;-webkit-tap-highlight-color:transparent}
+.phb.dn{background:var(--acc);border-color:#fff;transform:scale(.96)}.phb.off{opacity:.24}.phb.wide{grid-column:1/-1}
+@media (orientation:portrait){#phPad{grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1.1fr) minmax(0,1fr)}#phBtns{order:-1}}
+#phQR{width:min(220px,46vh);aspect-ratio:1;margin:10px auto;background:#fff;border-radius:10px;overflow:hidden;display:grid;place-items:center;color:#111;font-size:12px}#phQR svg{width:100%;height:100%;display:block}
+.phcode{text-align:center;font-family:var(--fd);font-size:30px;font-weight:900;letter-spacing:.16em}.phurl{text-align:center;font-size:12px;color:var(--mut);overflow-wrap:anywhere}
 </style>
 </head>
 <body>
@@ -549,6 +569,7 @@ body.padmode #ctl,body.padmode #joyZ{display:none!important}
 
 <!-- Hub -->
 <section class="screen" id="s-tot"><div class="tot" id="totBox"></div></section>
+<section class="screen" id="s-phone"><div id="phTop"><b>IRON CAGE · P2</b><span id="phSt">Connecting…</span><button id="phPause">Pause</button><button id="phRe" hidden>Retry</button></div><div id="phPad"><div id="phJoy"><div id="phBase"></div><div id="phKnob"></div></div><div id="phBtns"><button class="phb" data-t="shoot">SHOOT</button><button class="phb" data-t="cross">CROSS</button><button class="phb" data-t="hkick">R KICK</button><button class="phb" data-t="duck">DUCK</button><button class="phb" data-t="jab">JAB</button><button class="phb" data-t="lkick">L KICK</button><button class="phb wide" data-t="block">BLOCK</button></div></div></section>
 <section class="screen" id="s-hub"><div class="wrap">
   <div class="hubg"><div class="colA">
   <div class="card" id="meCard"></div>
@@ -1980,7 +2001,7 @@ function decision(){
 }
 
 /* --- Spieler-Eingabe: Joystick (jx,jy), Tastatur (kx,ky), Puffer für Tasten, die kurz zu früh gedrückt werden --- */
-const IN={jx:0,jy:0,kx:0,ky:0,gx:0,gy:0,gb:false,block:false},IN2={kx:0,ky:0,gx:0,gy:0,gb:false,block:false},INS=[IN,IN2],BB=[null,null];
+const IN={jx:0,jy:0,kx:0,ky:0,gx:0,gy:0,gb:false,block:false},IN2={kx:0,ky:0,gx:0,gy:0,px:0,py:0,pb:false,gb:false,block:false},INS=[IN,IN2],BB=[null,null];
 const chinF=c=>Math.min(2,Math.exp(-(c-55)/20));   // Kampf-Kinn 55 → 1.0, 71 (≈80) → .45, 79 (≈95) → .30
 const reactTime=f=>.2-.12*f.ai.L-(f.s.def-50)/700+rnd()*.05;
 function press(type,side=0){if(!G||G.auto||G.spec)return;const me=G.f[side];if(!me||me.ai)return;
@@ -2086,7 +2107,7 @@ function update(dt){
   else if(window.IC.spam){const d=dist();p.mf=d>13?1:0;p.ml=0;p.blockHeld=false;if(canStrike(p)&&!p.chg&&G.t>(p._sn||0)){p._sq=(p._sq||0)+1;attack(p,p._sq%2?'jab':'cross');p._sn=G.t+(p._sq%2?.05:.55)}}
   else{tryBuf(0);p.mf=clamp(IN.jx+IN.kx+IN.gx,-1,1);p.ml=clamp(IN.jy+IN.ky+IN.gy,-1,1);p.blockHeld=(IN.block||IN.gb)&&!p.chg;p.hg=!!(p.P&&p.P.autoGuard)}
   if(f[1].ai){if(!sw)aiStep(f[1],dt)}
-  else{const q=f[1];tryBuf(1);q.mf=clamp(-(IN2.kx+IN2.gx),-1,1);q.ml=clamp(-(IN2.ky+IN2.gy),-1,1);q.blockHeld=(IN2.block||IN2.gb)&&!q.chg;q.hg=!!(q.P&&q.P.autoGuard)}   // Spieler 2 steht rechts: Richtungen gespiegelt
+  else{const q=f[1];tryBuf(1);q.mf=clamp(-(IN2.kx+IN2.gx+IN2.px),-1,1);q.ml=clamp(-(IN2.ky+IN2.gy+IN2.py),-1,1);q.blockHeld=(IN2.block||IN2.gb||IN2.pb)&&!q.chg;q.hg=!!(q.P&&q.P.autoGuard)}   // Spieler 2 steht rechts: Richtungen gespiegelt
   for(const x of (sw?[f[1],f[0]]:f)){
     stepAct(x,dt);
     // Aufladen
@@ -2663,6 +2684,7 @@ function openVs(){
   const n=padCount();
   $('#mdBox').innerHTML=`<div class="small mut">Local multiplayer · one screen</div><div class="h1" style="margin:4px 0 8px">🎮 Local versus</div>
     <div class="vspad ${n?'ok':''}">${PAD.err?'⚠️ This browser view blocks controllers – open the game in its own browser tab.':n?`${n} controller${n>1?'s':''} connected: ${esc(padNames())}`:'No controller found – plug it in and press any button. Keyboard works too.'}</div>
+    <button class="btn sm ${PH.conn?'pri':'ghost'}" id="vPh" style="width:100%;margin-bottom:8px">📱 ${PH.conn?'Phone connected as P2':'Connect a phone as P2'}</button>
     ${row('a','P1')}${row('b',VS.cpu?'CPU':'P2')}
     <div style="display:flex;gap:8px;margin-top:10px"><button class="btn sm ${VS.cpu?'':'pri'}" id="vP2" style="flex:1">2 players</button><button class="btn sm ${VS.cpu?'pri':''}" id="vCpu" style="flex:1">vs CPU</button></div>
     <div style="display:flex;gap:8px;margin-top:8px"><button class="btn sm ${VS.rds===3?'pri':''}" id="vR3" style="flex:1">3 rounds</button><button class="btn sm ${VS.rds===5?'pri':''}" id="vR5" style="flex:1">5 rounds</button></div>
@@ -2670,7 +2692,7 @@ function openVs(){
     <div class="mut" style="font-size:12px;margin-top:4px">Versus fights don't count for your career.</div>
     <div class="row"><button class="btn ghost" id="vX">Back</button><button class="btn pri" id="vGo">FIGHT!</button></div>`;
   $('#mdBox').querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>{const k=b.dataset.v[0],d=b.dataset.v[1]==='+'?1:-1;VS[k]=(VS[k]+d+P.length)%P.length;sUI();openVs();PAD.keep=b.dataset.v});
-  $('#vP2').onclick=()=>{VS.cpu=false;sUI();openVs();PAD.keep='#vP2'};$('#vCpu').onclick=()=>{VS.cpu=true;sUI();openVs();PAD.keep='#vCpu'};
+  $('#vPh').onclick=()=>{ac();sUI();phHost()};$('#vP2').onclick=()=>{VS.cpu=false;sUI();openVs();PAD.keep='#vP2'};$('#vCpu').onclick=()=>{VS.cpu=true;sUI();openVs();PAD.keep='#vCpu'};
   $('#vR3').onclick=()=>{VS.rds=3;sUI();openVs();PAD.keep='#vR3'};$('#vR5').onclick=()=>{VS.rds=5;sUI();openVs();PAD.keep='#vR5'};
   $('#vX').onclick=()=>$('#md').classList.remove('on');
   $('#vGo').onclick=()=>{ac();$('#md').classList.remove('on');startVs()};
@@ -2764,7 +2786,7 @@ function padTick(){requestAnimationFrame(padTick);window.__setPF=e=>setPF(e);
   const L=padList();if(!L.length){if(PAD.had){PAD.had=0;for(const T of INS){T.gx=T.gy=0;T.gb=false}}return}PAD.had=1;
   const fightOn=G&&$('#s-fight').classList.contains('on')&&!G.paused&&!$('#ov').classList.contains('on')&&!$('#md').classList.contains('on'),watch=G&&(G.auto||G.spec);
   const acc=[{x:0,y:0,b:false},{x:0,y:0,b:false}];let nd='',any=false;
-  L.forEach((p,i)=>{const side=G&&G.vs?Math.min(i,1):0,B=p.buttons,ax=p.axes||[];
+  L.forEach((p,i)=>{const side=G&&G.vs?(PH.conn?0:Math.min(i,1)):0,B=p.buttons,ax=p.axes||[];
     if(B[8]&&B[8].pressed&&!(PAD.prev[p.index]||{})[8])fsToggle(false);
     const now={};for(let k=0;k<17;k++)now[k]=!!(B[k]&&(B[k].pressed||B[k].value>.5));
     const prev=PAD.prev[p.index]||{},edge=k=>now[k]&&!prev[k],rel=k=>!now[k]&&prev[k];
@@ -3021,7 +3043,7 @@ JZ.addEventListener('pointermove',e=>{if(JP&&e.pointerId===JP.id)joyMove(e)});
 const joyUp=e=>{if(JP&&e.pointerId===JP.id){JP=null;IN.jx=IN.jy=0;joyHome()}};
 ['pointerup','pointercancel','lostpointercapture'].forEach(t=>{JZ.addEventListener(t,joyUp);document.addEventListener(t,joyUp)});
 // Alle Eingaben zurücksetzen – bei Kampfstart/-ende, Pause, App-Wechsel, und wenn kein Finger mehr auf dem Display liegt
-function resetInput(){JP=null;for(const T of INS){T.kx=T.ky=T.gx=T.gy=0;T.block=T.gb=false}IN.jx=IN.jy=0;BB[0]=BB[1]=null;for(const k in KD)KD[k]=false;for(const k in KD2)KD2[k]=false;if(G&&G.f[1]&&!G.f[1].ai)G.f[1].chg=null;joyHome();for(const h of HELD){h.el.classList.remove('dn')}if(G&&G.f[0].chg)G.f[0].chg=null}
+function resetInput(){JP=null;for(const T of INS){T.kx=T.ky=T.gx=T.gy=0;T.block=T.gb=false}IN2.px=IN2.py=0;IN2.pb=false;IN.jx=IN.jy=0;BB[0]=BB[1]=null;for(const k in KD)KD[k]=false;for(const k in KD2)KD2[k]=false;if(G&&G.f[1]&&!G.f[1].ai)G.f[1].chg=null;joyHome();for(const h of HELD){h.el.classList.remove('dn')}if(G&&G.f[0].chg)G.f[0].chg=null}
 document.addEventListener('touchend',e=>{if(e.touches.length)return;
   if(JP){JP=null;IN.jx=IN.jy=0;joyHome()}for(const h of HELD)if(h.el.classList.contains('dn'))h.up()},{passive:true});
 document.addEventListener('touchcancel',e=>{if(!e.touches.length)resetInput()},{passive:true});
@@ -3060,10 +3082,99 @@ function padFocusHint(on){let h=$('#padHint');if(!on){if(h)h.classList.remove('o
 // Test-Hilfen
 window.IC={start:id=>startFight(id||save.order[save.order.length-2]),tdTest:(me)=>{const a=G.f[me?1:0],d=G.f[me?0:1];G.state='fight';startGround(a,d,0,'TAKEDOWN!');return !!G.gnd},gnd:()=>G&&G.gnd,shoot:s=>startShoot(G.f[s||0]),bench:n=>{const t0=performance.now();for(let i=0;i<n;i++){render();ctx.getImageData(0,0,1,1)}return {ms:Math.round((performance.now()-t0)/n*10)/10,canvas:[cv.width,cv.height]}},styles:()=>STYLES,duel:(A,B,lv=20)=>{const lift=b=>{const s={};for(const k in b)s[k]=Math.min(99,b[k]+lv);return s};Object.assign(save.me,{style:A,stats:lift(STYLES[A].base),ht:178,reach:180,build:"athletic"});startFight({id:"x",first:"X",last:"Y",nick:"",style:B,stats:lift(STYLES[B].base),skin:"#d9a37a",shorts:"#2563eb",rec:[0,0],ht:178,reach:180,build:"athletic"},null,{});let n=0;while(G&&!G.shown&&n<60*400){update(1/60);n++}const r=G.result;window.IC.lastF=G.f;cancelAnimationFrame(RAF);G=null;window.IC.last=r;return r?r.win:null},age:()=>save.fighters.map(f=>Math.floor(f.age)),hof:()=>save.hof,card:()=>ensureCard(),watch:i=>{const c=ensureCard(),cb=(c.title?[c.title]:[]).concat(c.bouts);startWatch(cb[i])},skip:()=>skipFight(),gnp:()=>G&&G.fin,tap:a=>qteTap(a),kd:()=>{const a=G.f[0],d=G.f[1];G.fin=null;d.kd=0;knockdown(d,a,3);return !!G.fin},kdMe:()=>{const a=G.f[1],d=G.f[0];G.fin=null;d.kd=0;let t=0;do{G.fin=null;d.kd=0;G.state='fight';d.act={type:'idle',t:0,dur:0};G.result=null;knockdown(d,a,3);t++}while(!G.fin&&t<30);return !!G.fin},dr:()=>DR,drPress:t=>drPress(t),spar:()=>startSpar(),week:n=>{for(let i=0;i<n;i++){simWeek(divOf());simOthers();rivalWeek();save.week++}persist()},camp:(o)=>openCamp(o),inp:()=>({jx:IN.jx,JP:!!JP}),press:t=>{press(t);unpress(t)},win:m=>endFight(G.f[0],m||'KO',null),lose:m=>endFight(G.f[1],m||'KO',null),Lof:o=>Lof(o),stat:v=>60+(v-60)*.55,auto:false,get G(){return G},get save(){return save},sim:sec=>{for(let i=0;i<sec*60&&G&&!G.shown;i++)update(1/60)}};
 
+/* ================= SMARTPHONE ALS CONTROLLER (P2) ================= */
+// Der PeerJS-Dienst vermittelt nur den Verbindungsaufbau; Eingaben laufen danach direkt per WebRTC im lokalen Netz
+const LIBS={peer:['https://cdn.jsdelivr.net/npm/peerjs@1.5.5/dist/peerjs.min.js','sha384-x0YgkOr/3UOZP2CRDxGW9e0Q+2Qjyr3uJrm4xU32Y7ZCNAo7Cc7bjhrZMi/dwczu',()=>window.Peer],
+  qr:['https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js','sha384-8FWZA6BGMXhsfO+BLtrJK0We6gg5o1JyO8xQm6peWDEUs17ACA5ziE/NIAkl9z2k',()=>window.qrcode]};
+const LIBP={};
+function loadLib(k){const [src,integrity,get]=LIBS[k];if(get())return Promise.resolve();
+  return LIBP[k]||(LIBP[k]=new Promise((ok,no)=>{const e=document.createElement('script');e.src=src;e.integrity=integrity;e.crossOrigin='anonymous';e.onload=()=>ok();e.onerror=()=>{delete LIBP[k];e.remove();no(new Error('load'))};document.head.appendChild(e)}))}
+const peerOpts=()=>({...(window.__ICPEER||{}),debug:0,config:{iceServers:[]}});   // ohne STUN/TURN: Verbindung bleibt im lokalen Netz
+const PH={peer:null,conn:null,token:'',code:'',st:'off',err:'',held:new Set(),timer:0,last:'',seen:0,hb:0};
+const PH_T=new Set(['jab','cross','lkick','hkick','duck','shoot']);
+const phCode=()=>{const A='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',b=new Uint8Array(6);crypto.getRandomValues(b);return [...b].map(x=>A[x%A.length]).join('')};
+const phDlgOn=()=>$('#md').classList.contains('on')&&!!$('#phBox');
+const phHuman=()=>!!(G&&G.vs&&G.f[1]&&!G.f[1].ai);
+function phRelease(){IN2.px=IN2.py=0;IN2.pb=false;for(const t of PH.held)if(G)unpress(t,1);PH.held.clear()}
+function phData(m){if(!m||typeof m!=='object')return;
+  if(m.k==='u'){if(PH_T.has(m.t)){PH.held.delete(m.t);if(G)unpress(m.t,1)}else if(m.t==='block')IN2.pb=false;return}
+  if(!phHuman()||G.paused){if(m.k==='a'){IN2.px=IN2.py=0}return}
+  if(m.k==='a'){const n=v=>Number.isFinite(+v)?clamp(+v,-1,1):0;IN2.px=n(m.x);IN2.py=n(m.y)}
+  else if(m.k==='d'){if(m.t==='block')IN2.pb=true;else if(PH_T.has(m.t)){PH.held.add(m.t);press(m.t,1)}}
+  else if(m.k==='p'&&$('#s-fight').classList.contains('on')&&G.state!=='over')$('#bPause').click()}
+function phPush(){const c=PH.conn;if(!c||!c.open)return;const now=performance.now();
+  // WebRTC meldet ein weggefallenes Handy oft gar nicht: deshalb eigener Herzschlag
+  if(now-PH.seen>4000){phLost(c);try{c.close()}catch(e){}return}if(now-PH.hb>1000){PH.hb=now;try{c.send({k:'h'})}catch(e){}}
+  let v='wait',r=null,can=false;
+  if(phHuman()){v=G.paused?'pause':G.state==='over'||G.shown?'over':G.gnd?'ground':'fight';if(G.gnd){r=roleOf(G.f[1]);can=G.gnd.ph==='pick'&&!G.gnd.pk[1]}}
+  const k=v+'|'+r+'|'+can;if(k===PH.last)return;PH.last=k;try{c.send({k:'st',v,r,can})}catch(e){}}
+function phLost(c){if(PH.conn!==c)return;PH.conn=null;PH.last='';if(PH.st!=='off')PH.st='wait';clearInterval(PH.timer);phRelease();tip('📱 Phone disconnected',2200);
+  if(phHuman()&&!G.paused&&G.state!=='over'&&!G.shown&&$('#s-fight').classList.contains('on'))$('#bPause').click();if(phDlgOn())phDlg()}
+function phAccept(c){const t=String((c.metadata&&c.metadata.t)||'').slice(0,40);
+  if(PH.conn&&PH.conn.open&&t!==PH.token){c.on('open',()=>{try{c.send({k:'busy'})}catch(e){}setTimeout(()=>c.close(),400)});return}
+  const old=PH.conn;PH.conn=c;PH.token=t;PH.last='';if(old)try{old.close()}catch(e){}
+  c.on('open',()=>{if(PH.conn!==c)return;PH.seen=performance.now();PH.st='on';VS.cpu=false;phRelease();clearInterval(PH.timer);PH.timer=setInterval(phPush,120);phPush();tip('📱 Phone connected as P2',2200);if(phDlgOn()){PAD.keep='#vGo';openVs()}});
+  c.on('data',m=>{if(PH.conn===c){PH.seen=performance.now();phData(m)}});c.on('close',()=>phLost(c));c.on('error',()=>phLost(c))}
+async function phHost(){if(PH.peer&&!PH.peer.destroyed){phDlg();return}PH.err='';PH.st='load';phDlg();
+  try{await loadLib('peer')}catch(e){PH.st='err';PH.err='Could not load the connection library. Check your internet.';if(phDlgOn())phDlg();return}
+  if(PH.st!=='load')return;PH.code=phCode();const p=PH.peer=new window.Peer('ironcage-'+PH.code.toLowerCase(),peerOpts());
+  p.on('open',()=>{if(PH.peer!==p)return;if(!PH.conn)PH.st='wait';if(phDlgOn())phDlg()});p.on('connection',phAccept);
+  p.on('disconnected',()=>{if(PH.peer===p&&!p.destroyed)try{p.reconnect()}catch(e){}});
+  p.on('error',e=>{if(PH.peer!==p)return;if(e.type==='unavailable-id'){p.destroy();PH.peer=null;phHost();return}
+    if(PH.conn)return;p.destroy();PH.peer=null;PH.st='err';PH.err='Connection service unavailable. Try again.';if(phDlgOn())phDlg()})}
+function phStop(){const p=PH.peer,c=PH.conn;PH.st='off';PH.conn=null;PH.peer=null;PH.code='';PH.token='';clearInterval(PH.timer);phRelease();if(c)try{c.close()}catch(e){}if(p)try{p.destroy()}catch(e){}}
+async function phDrawQR(url){const b=$('#phQR');if(!b)return;try{await loadLib('qr');const q=window.qrcode(0,'M');q.addData(url);q.make();const x=$('#phQR');if(x&&PH.code&&url.endsWith(PH.code))x.innerHTML=q.createSvgTag({scalable:true,margin:2})}catch(e){const x=$('#phQR');if(x)x.textContent='QR unavailable – open the link below'}}
+function phDlg(){const url=PH.code?location.origin+location.pathname+'?join='+PH.code:'',w=PH.st==='wait';
+  $('#mdBox').innerHTML=`<div id="phBox"><div class="small mut">Local versus · phone as player 2</div><div class="h1" style="margin:4px 0 6px">📱 Connect a phone</div>
+    ${PH.st==='err'?`<div class="vspad">⚠️ ${esc(PH.err)}</div>`:w?`<div id="phQR">Loading QR…</div><div class="phcode">${PH.code}</div><div class="phurl">${esc(url)}</div><div class="mut" style="font-size:12px;margin-top:8px;text-align:center">Scan with the phone camera. Both devices need to be on the same Wi-Fi.</div>`:'<div class="vspad">Preparing connection…</div>'}
+    <div class="row"><button class="btn ghost" id="phBack">Back</button>${PH.st==='err'?'<button class="btn pri" id="phTry">Try again</button>':'<button class="btn ghost" id="phOff">Cancel</button>'}</div></div>`;
+  $('#phBack').onclick=()=>{sUI();openVs()};if($('#phTry'))$('#phTry').onclick=()=>{sUI();PH.st='off';phHost()};if($('#phOff'))$('#phOff').onclick=()=>{sUI();phStop();openVs()};
+  $('#md').classList.add('on');if(w)phDrawQR(url)}
+
+/* --- Handy-Seite: nur Eingaben senden, kein eigenes Spiel --- */
+function phJoin(raw){const code=String(raw||'').trim().toUpperCase(),st=$('#phSt'),re=$('#phRe');show('s-phone');$('#gFs').style.setProperty('display','none','important');
+  const say=(t,c)=>{st.textContent=t;st.className=c||''};let peer=null,conn=null,tries=0,retry=0,wake=null,kx=0,ky=0,sx=0,sy=0,dirty=false,seen=0;
+  if(!/^[A-Z0-9]{6}$/.test(code)){say('Invalid game code','bad');return}
+  let token='';try{token=sessionStorage.getItem('ic_ph')||''}catch(e){}if(!token){token=phCode()+phCode();try{sessionStorage.setItem('ic_ph',token)}catch(e){}}
+  const send=m=>{if(conn&&conn.open)try{conn.send(m)}catch(e){}};
+  const B=[...document.querySelectorAll('#phBtns .phb')],NAMES={pass:'PASS',strike:'STRIKE',ctrl:'CONTROL',let:'STAND UP',frame:'FRAME',cover:'COVER',sweep:'SWEEP',up:'GET UP'},BASE={};for(const b of B)BASE[b.dataset.t]=b.textContent;
+  const setUI=m=>{const g=m.v==='ground'&&(m.r==='top'||m.r==='bot');for(const b of B){const t=b.dataset.t,it=g&&GI[m.r][t];b.textContent=it?NAMES[it]:BASE[t];b.classList.toggle('off',g?!it||!m.can:false)}
+    say({wait:'Connected · waiting for the fight',fight:'Fight!',ground:m.r==='top'?'On top – pick a move':'On the bottom – pick a move',pause:'Paused',over:'Fight over'}[m.v]||'Connected','ok')};
+  const release=()=>{for(const b of B)if(b.classList.contains('dn')){b.classList.remove('dn');send({k:'u',t:b.dataset.t})}joyEnd()};
+  const fail=(t)=>{conn=null;release();clearTimeout(retry);if(++tries<=5){say(t+' · retrying…','bad');retry=setTimeout(start,2000)}else{say(t,'bad');re.hidden=false}};
+  async function lock(){try{if(navigator.wakeLock&&!wake&&!document.hidden){wake=await navigator.wakeLock.request('screen');wake.addEventListener('release',()=>{wake=null})}}catch(e){}}
+  async function start(){clearTimeout(retry);re.hidden=true;say('Connecting…');if(peer)try{peer.destroy()}catch(e){}peer=conn=null;
+    try{await loadLib('peer')}catch(e){fail('No internet');return}
+    const p=peer=new window.Peer(peerOpts());let opened=false;const guard=setTimeout(()=>{if(peer===p&&!opened)fail('Could not reach the game')},12000);
+    p.on('open',()=>{if(peer!==p)return;const c=p.connect('ironcage-'+code.toLowerCase(),{reliable:true,serialization:'json',metadata:{t:token}});conn=c;
+      c.on('open',()=>{if(peer!==p)return;opened=true;clearTimeout(guard);tries=0;seen=performance.now();say('Connected · waiting for the fight','ok');lock()});
+      c.on('data',m=>{if(!m||peer!==p)return;seen=performance.now();if(m.k==='busy'){opened=true;clearTimeout(guard);tries=9;conn=null;say('Another phone is already connected','bad');re.hidden=false}else if(m.k==='st')setUI(m)});
+      c.on('close',()=>{if(peer===p&&conn===c&&opened)fail('Connection lost')})});
+    p.on('error',e=>{if(peer!==p||opened)return;clearTimeout(guard);fail(e.type==='peer-unavailable'?'Game not found':'Connection failed')})}
+  re.onclick=()=>{tries=0;start()};$('#phPause').onclick=()=>send({k:'p'});
+  for(const b of B){const t=b.dataset.t,up=()=>{if(!b.classList.contains('dn'))return;b.classList.remove('dn');send({k:'u',t})};
+    b.addEventListener('pointerdown',e=>{e.preventDefault();if(b.classList.contains('off'))return;b.classList.add('dn');try{b.setPointerCapture(e.pointerId)}catch(_){}try{navigator.vibrate&&navigator.vibrate(8)}catch(_){}send({k:'d',t})});
+    ['pointerup','pointercancel','lostpointercapture'].forEach(n=>b.addEventListener(n,up))}
+  const J=$('#phJoy'),K=$('#phKnob'),JB=$('#phBase');let jp=null;
+  function joyEnd(){jp=null;kx=ky=0;dirty=true;K.style.transform='';JB.style.left=JB.style.top=K.style.left=K.style.top=''}
+  const joy=e=>{const R=56;let dx=e.clientX-jp.x,dy=e.clientY-jp.y,m=Math.hypot(dx,dy);if(m>R){jp.x+=dx*(1-R/m);jp.y+=dy*(1-R/m);dx=e.clientX-jp.x;dy=e.clientY-jp.y;m=R}
+    const r=J.getBoundingClientRect();JB.style.left=K.style.left=(jp.x-r.left)+'px';JB.style.top=K.style.top=(jp.y-r.top)+'px';K.style.transform=`translate(${dx}px,${dy}px)`;
+    let x=dx/R,y=dy/R;const q=Math.hypot(x,y);if(q<.18){x=y=0}else{const k=Math.min(1,(q-.18)/.7)/q;x*=k;y*=k}kx=x;ky=y;dirty=true};
+  J.addEventListener('pointerdown',e=>{e.preventDefault();jp={id:e.pointerId,x:e.clientX,y:e.clientY};try{J.setPointerCapture(e.pointerId)}catch(_){}joy(e)});
+  J.addEventListener('pointermove',e=>{if(jp&&e.pointerId===jp.id)joy(e)});
+  ['pointerup','pointercancel','lostpointercapture'].forEach(n=>J.addEventListener(n,e=>{if(jp&&e.pointerId===jp.id)joyEnd()}));
+  setInterval(()=>{if(!dirty)return;const end=!kx&&!ky;if(!end&&Math.abs(kx-sx)<.04&&Math.abs(ky-sy)<.04)return;dirty=false;sx=kx;sy=ky;send({k:'a',x:+kx.toFixed(2),y:+ky.toFixed(2)})},25);
+  setInterval(()=>{if(document.hidden||!conn||!conn.open)return;send({k:'h'});if(performance.now()-seen>5000)fail('Connection lost')},1000);
+  document.addEventListener('visibilitychange',()=>{if(document.hidden)release();else{lock();if(!conn||!conn.open){tries=0;start()}}});
+  addEventListener('contextmenu',e=>e.preventDefault());
+  start()}
+
 /* --- Start --- */
+const JOIN=new URLSearchParams(location.search).get('join');
+if(JOIN!==null)phJoin(JOIN);else{
 save=load();
 if(save&&save.me&&save.order){ensureDivs();renderHub()}else save=null;renderMenu();show('s-menu')
-cloudInit();
+cloudInit()}
 })();
 
 </script>
