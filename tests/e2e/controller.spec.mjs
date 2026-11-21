@@ -73,3 +73,18 @@ test('after a fight the hub is navigable again', async ({ page }) => {
   const f = await page.evaluate(() => { const e = document.querySelector('.padf'); return e ? e.closest('#s-hub') !== null : false; });
   expect(f).toBe(true);
 });
+
+// Poster/Console/Classic: von der untersten Button-Reihe kommt man mit "Hoch" immer bis nach oben,
+// auch wenn der Tab in der Mitte nichts Anwählbares hat (News, Careers).
+for (const layout of ['poster', 'console', 'classic']) for (const tab of ['news', 'saves'])
+  test(`up from the bottom row reaches the top (${layout}, ${tab})`, async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await installFakePad(page); await openFresh(page, { layout }); await newCareer(page);
+    await page.click(`.tab[data-t="${tab}"]`);
+    await page.evaluate(() => { document.querySelector('#s-hub').scrollTop = 1e6; window.__setPF(document.querySelector('#bReset')) });
+    const seen = new Set();
+    for (let i = 0; i < 14; i++) { await tap(page, PAD.UP); seen.add(await focused(page)) }
+    seen.delete('bReset');
+    expect(seen.size, `stuck on the bottom row: ${[...seen]}`).toBeGreaterThan(0);
+    expect(await page.evaluate(() => document.querySelector('.padf').getBoundingClientRect().top)).toBeLessThan(300);
+  });

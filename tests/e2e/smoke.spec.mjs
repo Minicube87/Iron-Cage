@@ -101,3 +101,19 @@ test('local versus works without a career (legends) and saves nothing', async ({
   expect(await page.evaluate(() => Object.keys(localStorage).filter(k => k !== 'ic_hublay'))).toEqual([]);
   expect(errors()).toEqual([]);
 });
+
+test('fullscreen button is visible on every screen', async ({ page }) => {
+  const errors = trackErrors(page);
+  await openFresh(page);
+  const check = async where => expect(page.locator('#gFs'), where).toBeVisible();
+  await check('menu');
+  await newCareer(page); await check('hub');
+  for (const t of ['rank', 'train', 'cal', 'news', 'guide', 'saves']) { await page.click(`.tab[data-t="${t}"]`); await check('hub ' + t) }
+  await page.click('.tab[data-t="fight"]');
+  await page.locator('#tabBox [data-o]').first().click(); await check('tale of the tape');
+  await page.click('#totG');
+  const camp = page.locator('#md.on [data-c]').first();
+  if (await camp.isVisible().catch(() => false)) { await check('camp'); await camp.click() }
+  await expect(page.locator('#s-fight.on')).toBeVisible(); await check('fight');
+  expect(errors()).toEqual([]);
+});

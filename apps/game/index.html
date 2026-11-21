@@ -166,8 +166,10 @@ html,body{margin:0;height:100%;background:var(--bg);color:var(--txt);font-family
 @media (max-width:520px){.lkg{grid-template-columns:1fr}.lkp{width:130px;height:130px;margin:0 auto}}
 .sbar{display:flex;align-items:center;gap:12px;margin:8px 0 10px}.sbar .h1{margin:0}
 @media (orientation:landscape) and (max-height:500px){.mwrap{max-width:900px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:6px 28px;align-items:center;padding-top:16px;min-height:100dvh;box-sizing:border-box}.mlogo{grid-column:1;grid-row:1;align-self:end;font-size:clamp(56px,10vw,92px)}.mtag{grid-column:1;grid-row:2;align-self:start;margin:4px 0}.mlist{grid-column:2;grid-row:1/4}.mfoot{grid-column:1;grid-row:3;margin-top:0;align-self:start}.mitem{padding:8px 12px}.mitem b{font-size:19px}}
- .screen:not(#s-fight):not(#s-tot)>*:not(.fsb){zoom:var(--uiz,1)}#md>.card{zoom:var(--uiz,1)}#ov>.card{zoom:var(--uiz,1)}#osk{zoom:var(--uiz,1)}
- .fsb{position:fixed!important;display:grid!important;place-items:center;padding:0!important;line-height:1;min-height:0;flex:none!important;height:44px!important;width:44px!important;top:calc(env(safe-area-inset-top) + 14px);right:calc(env(safe-area-inset-right) + 14px);width:44px;height:44px;border-radius:12px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.04);color:#fff;font-size:20px;cursor:pointer;z-index:2}
+ .screen:not(#s-fight):not(#s-tot)>*{zoom:var(--uiz,1)}#md>.card{zoom:var(--uiz,1)}#ov>.card{zoom:var(--uiz,1)}#osk{zoom:var(--uiz,1)}
+ #gFs{position:fixed;display:grid;place-items:center;padding:0;line-height:1;top:calc(env(safe-area-inset-top) + 12px);right:calc(env(safe-area-inset-right) + 12px);width:40px;height:40px;border-radius:12px;border:1px solid rgba(255,255,255,.14);background:rgba(16,16,20,.72);color:#fff;font-size:19px;cursor:pointer;z-index:60}
+ #s-hub{padding-right:calc(env(safe-area-inset-right) + 62px)}   /* Platz für den Vollbild-Button oben rechts */
+ body[data-scr="s-fight"] #gFs{top:calc(env(safe-area-inset-top) + 92px);right:calc(env(safe-area-inset-right) + 66px);width:40px;height:40px;border-radius:10px;background:rgba(10,10,12,.6)}
  #s-tot{background:#070B14;padding:0;overflow:hidden}
  .tot{position:relative;width:100%;height:100%;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.45fr) minmax(0,1fr);color:#EEF3FB;overflow:hidden}
  .tot::before{content:'';position:absolute;left:0;right:0;top:0;height:56px;background:linear-gradient(90deg,var(--acc),#0B1424 30%,#0B1424 70%,#F2B705);opacity:.18}
@@ -458,7 +460,7 @@ body.padmode #ctl,body.padmode #joyZ{display:none!important}
 <body>
 
 <!-- Hauptmenü -->
-<section class="screen" id="s-menu"><button id="mFs" class="fsb" aria-label="Fullscreen" title="Fullscreen (controller: View button)">⛶</button><div class="mwrap">
+<section class="screen" id="s-menu"><div class="mwrap">
   <div class="mlogo">IRON <span>CAGE</span></div>
   <div class="mtag">MMA CAREER</div>
   <div class="mlist" id="mList"></div>
@@ -581,6 +583,7 @@ body.padmode #ctl,body.padmode #joyZ{display:none!important}
     <div class="cbt" data-k="lkick" id="dLK"><b>L KICK</b></div><div class="cbt" data-k="hkick" id="dHK"><b>R KICK</b></div><div class="cbt" data-k="block" id="dBlock"><b>BLOCK</b></div></div>
 </section>
 
+<button id="gFs" aria-label="Fullscreen" title="Fullscreen (controller: View button)">⛶</button>
 <script>
 (()=>{
 'use strict';
@@ -640,10 +643,10 @@ const REGIONS=[
  {f:['Jake','Mitch','Tane','Rangi','Lachlan','Brodie'],l:['Thompson','Walker','Ngata','Parata','Clarke','Dawson'],s:['#f1d3bd','#9a6a46','#c08457']},
  {f:['Hugo','Théo','Karim','Yanis','Mathis','Nolan'],l:['Laurent','Girard','Benali','Fournier','Mercier','Diallo'],s:['#f1d3bd','#a87650','#4a2c1a']},
 ];
-const NICKS=['Red Fox','The Hurricane','Ironside','The Anvil','Nomad','Blackjack','The Matchstick','Bulldog','Atlas','The Comet','Sparrow','Granite','Thunderclap','The Shark','Lockjaw','Wildfire','The Mountain','Lynx','Rocket','The Surgeon','Copperhead','The Butcher of the Bay','Steamroller','Avalanche','The Hitman','Juggernaut','Wolfpack','Quicksilver','The Saint','Stingray','Blizzard','Night Owl','Smokestack','Razorback','Kingpin','Tornado','Banshee','The Engine','El Toro','The Blade','Hammer','Polar Bear','Silk','Jet','Iron','Ghost','Viking','Storm','Dragon','The Wall','Flash','Lion','Pitbull','Falcon','Rook','Ice','Panther','Brick',
+const NICKS=[...new Set(['Red Fox','The Hurricane','Ironside','The Anvil','Nomad','Blackjack','The Matchstick','Bulldog','Atlas','The Comet','Sparrow','Granite','Thunderclap','The Shark','Lockjaw','Wildfire','The Mountain','Lynx','Rocket','The Surgeon','Copperhead','The Butcher of the Bay','Steamroller','Avalanche','The Hitman','Juggernaut','Wolfpack','Quicksilver','The Saint','Stingray','Blizzard','Night Owl','Smokestack','Razorback','Kingpin','Tornado','Banshee','The Engine','El Toro','The Blade','Hammer','Polar Bear','Silk','Jet','Iron','Ghost','Viking','Storm','Dragon','The Wall','Flash','Lion','Pitbull','Falcon','Rook','Ice','Panther','Brick',
  'Bulldozer','The Surgeon','Cyclone','Mamba','Wolf','Thunder','Razor','Tank','Cobra','Shadow','The Machine','Grizzly','Hurricane','Scorpion','Nightmare','The Professor','Hitman','Sniper','Stone','Venom',
  'Titan','The Butcher','Kamikaze','Diesel','Maniac','Bonecrusher','Lightning','The Reaper','Rhino','Jackal','Phantom','Tornado','Avalanche','Saint','Outlaw','Prince','The Kid','Sledgehammer','Gunslinger','Mad Dog',
- 'Smokey','Crusher','Bullet','Tsunami','Samurai','Gladiator','Hyena','Bison','Sandman','Dynamite'];
+ 'Smokey','Crusher','Bullet','Tsunami','Samurai','Gladiator','Hyena','Bison','Sandman','Dynamite'])];   // Set: jeder Spitzname nur einmal
 function genRoster(n,avoid,taken){
   const used=new Set([String(avoid||'').toLowerCase()].concat((taken||[]).map(x=>String(x).toLowerCase()))),nk=[...NICKS].sort(()=>rnd()-.5),styles=[],out=[];
   for(let i=0;i<n;i++)styles.push(ALL_CLASSES[i%ALL_CLASSES.length]);styles.sort(()=>rnd()-.5);
@@ -939,7 +942,7 @@ function renderGuideScr(){guideInto($('#gBox'),save&&save.me?save.me.style:null,
 function renderSet(){audLbl();{const h=$('#hlsSet');if(h){h.innerHTML=hubLaySwitch('hlsS');wireHubLay(h)}}const n=padCount();const sp=$('#sPad');sp.className='vspad'+(n?' ok':'');sp.textContent=PAD.err?'⚠️ This browser view blocks controllers – open the game in its own tab.':n?`${n} connected: ${padNames()}`:'No controller connected right now.';
   $('#sSave').innerHTML=CL.ref?'☁️ Your careers are saved online to your Claude account and on this device. They load automatically on your other devices.':'Your careers are saved on this device.'}
 function toMenu(){$('#md').classList.remove('on');renderMenu();show('s-menu');scrollTo(0,0)}
-function show(id){if(id!=='s-fight'){crowdStop();try{speechSynthesis.cancel()}catch(e){}$('#ov').classList.remove('on')}document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('on',s.id===id))}
+function show(id){if(id!=='s-fight'){crowdStop();try{speechSynthesis.cancel()}catch(e){}$('#ov').classList.remove('on')}document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('on',s.id===id));document.body.dataset.scr=id}
 let newStyle='Boxer',hubTab='fight',hubSel=null;const newBio={ht:178,reach:180,build:'athletic',skin:'#d9a37a'};
 function bioTxt(){const h=+$('#nHt').value,r=+$('#nRe').value;newBio.ht=h;newBio.reach=r;$('#nHtV').textContent=h+' cm';$('#nReV').textContent=r+' cm ('+(r-h>=0?'+':'')+(r-h)+')';
   const t=[];if(r-180>=6)t.push('longer jab & cross, hands a touch slower');else if(r-180<=-6)t.push('shorter reach – you need to get inside, but quicker hands');
@@ -1326,8 +1329,8 @@ function fsToggle(gesture){ac();sUI();const d=document,el=d.documentElement;
   try{if(d.fullscreenElement||d.webkitFullscreenElement){(d.exitFullscreen||d.webkitExitFullscreen).call(d);return}
     const rq=el.requestFullscreen||el.webkitRequestFullscreen;if(!rq||d.fullscreenEnabled===false)return fsBlocked(gesture);
     const pr=rq.call(el,{navigationUI:'hide'});if(pr&&pr.catch)pr.catch(()=>fsBlocked(gesture))}catch(e){fsBlocked(gesture)}}
-$('#bFs').onclick=()=>fsToggle(true);$('#mFs').onclick=()=>fsToggle(true);
-document.addEventListener('fullscreenchange',()=>{const b=$('#mFs');if(b)b.textContent=document.fullscreenElement?'🗗':'⛶'});
+$('#bFs').onclick=()=>fsToggle(true);$('#gFs').onclick=()=>fsToggle(true);
+document.addEventListener('fullscreenchange',()=>{const b=$('#gFs');if(b)b.textContent=document.fullscreenElement?'🗗':'⛶'});
 $('#hCom').onclick=()=>{AUD.com=!AUD.com;saveAud();audLbl();sUI();if(AUD.com)say('Commentary on.',true)};
 $('#hCrd').onclick=()=>{AUD.crowd=!AUD.crowd;saveAud();audLbl();sUI();if(AUD.crowd)sOoh(.6)};
 armBtn($('#bFresh'),'New career – keep my stats',()=>{
@@ -2449,7 +2452,7 @@ function navMove(dx,dy){const L=navEls();if(!L.length)return;
   const tabs=navRoot().id==='s-hub'&&navRoot().querySelector('.hubg .tabs'),sticky=!!tabs&&getComputedStyle(tabs).position==='sticky',col=e=>e.closest('.tabs')?1:e.closest('.colA')?2:3;
   const pick=same=>{let b=null,s=1e9;for(const e of L){if(e===PF||(same&&col(e)!==col(PF)))continue;const r=e.getBoundingClientRect(),x=r.left+r.width/2-ax,y=r.top+r.height/2-ay,fw=x*dx+y*dy;if(fw<=6)continue;const sc=fw+Math.abs(x*dy-y*dx)*2.5;if(sc<s){s=sc;b=e}}return b};
   best=pick(sticky&&!!dy);
-  if(!best&&dy){if(padScroll(dy*140))return;if(sticky&&dy>0)best=pick(false)}
+  if(!best&&dy){if(padScroll(dy*140))return;if(sticky)best=pick(false)}   // Spalte zu Ende & kein Scrollen mehr: auf Nachbarspalte springen
   if(best){setPF(best);sUI()}}
 
 /* ===== Bildschirmtastatur für Controller (Name, Spitzname …) ===== */
