@@ -9,8 +9,11 @@ on:
   workflow_call:
   workflow_dispatch:
 
+# Eigene Gruppe je Workflow + Event + Branch. Vorher hieß die Gruppe nur "ci-<ref>": Ein PR-Lauf
+# und die Tests im Pages-Deploy landeten in derselben Gruppe und haben sich gegenseitig abgebrochen,
+# sodass der Deploy ausgefallen ist. Aufgerufen aus pages.yml ist github.workflow der Name des Deploys.
 concurrency:
-  group: ci-${{ github.ref }}
+  group: ci-${{ github.workflow }}-${{ github.event_name }}-${{ github.head_ref || github.ref }}
   cancel-in-progress: true
 
 jobs:
