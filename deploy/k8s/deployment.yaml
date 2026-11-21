@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: iron-cage
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: iron-cage
+  template:
+    metadata:
+      labels:
+        app: iron-cage
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:alpine
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              memory: "16Mi"
+              cpu: "10m"
+            limits:
+              memory: "32Mi"
+              cpu: "100m"
+          volumeMounts:
+            - name: site-content
+              mountPath: /usr/share/nginx/html
+              readOnly: true
+      volumes:
+        - name: site-content
+          configMap:
+            name: iron-cage-content

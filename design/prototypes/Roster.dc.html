@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Iron Cage – Avatars in fight card and rankings</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+button{font:inherit;cursor:pointer}
+</style>
+</helmet>
+<div style="width: 844px; height: 390px; box-sizing: border-box; padding: 14px 16px; background: #0A0A0C; font-family: Inter, system-ui, sans-serif; color: #F4F1EA; display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 14px; overflow: hidden">
+
+  <div style="display: flex; flex-direction: column; border-radius: 14px; overflow: hidden; background: #14110F; border: 1px solid rgba(242,183,5,0.35)">
+    <div style="display: flex; justify-content: center; padding-top: 12px">
+      <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.18em; color: #F2B705">MIDDLEWEIGHT TITLE · 5 RDS</span>
+    </div>
+    <div style="flex: 1; display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; padding: 6px 16px">
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 8px">
+        <dc-import name="Face" skin="#D9A37A" hair-style="buzz" hair-color="#1E1714" beard="stubble" extra="cauliflower" bg="#E5132B" size="{{ 132 }}" hint-size="132px,132px"></dc-import>
+        <div style="text-align: center">
+          <div style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 22px; line-height: 1">SERGEY</div>
+          <div style="font-size: 11px; color: #A8A39B; margin-top: 3px">#1 · 88 OVR · Brawler</div>
+        </div>
+      </div>
+      <span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 34px; color: #F2B705; padding: 0 8px">VS</span>
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 8px">
+        <dc-import name="Face" skin="#E2B98F" hair-style="bun" hair-color="#1E1714" beard="mustache" extra="scar" bg="#2F6BFF" size="{{ 132 }}" hint-size="132px,132px"></dc-import>
+        <div style="text-align: center">
+          <div style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 22px; line-height: 1">KING MING</div>
+          <div style="font-size: 11px; color: #A8A39B; margin-top: 3px">Champion · 97 OVR · Legend</div>
+        </div>
+      </div>
+    </div>
+    <div style="display: flex; justify-content: center; padding: 0 16px 14px">
+      <button style="border: 0; border-radius: 10px; padding: 10px 28px; background: #F2B705; color: #1A1300; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 17px; letter-spacing: 0.04em">ACCEPT</button>
+    </div>
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 6px; background: #121116; border: 1px solid rgba(255,255,255,0.07); border-radius: 14px; padding: 12px 14px; min-width: 0">
+    <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.16em; color: #A8A39B; margin-bottom: 2px">MIDDLEWEIGHT RANKINGS</span>
+    <sc-for list="{{rows}}" as="r" hint-placeholder-count="6">
+      <div style="display: grid; grid-template-columns: 26px 38px minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 3px 0; border-bottom: 1px solid rgba(255,255,255,0.05)">
+        <span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 15px; color: {{r.rc}}">{{r.rk}}</span>
+        <dc-import name="Face" skin="{{r.skin}}" hair-style="{{r.hair}}" hair-color="{{r.hc}}" beard="{{r.beard}}" extra="{{r.extra}}" bg="{{r.bg}}" size="{{ 38 }}" hint-size="38px,38px"></dc-import>
+        <div style="min-width: 0">
+          <div style="font-weight: 700; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{r.name}}</div>
+          <div style="font-size: 11px; color: #A8A39B">{{r.sub}}</div>
+        </div>
+        <span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 18px">{{r.ovr}}</span>
+      </div>
+    </sc-for>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":844,"height":390}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const R = [
+      ['C', 'King Ming', 'Boxer · 41-3 · 30y', 97, '#E2B98F', 'bun', '#1E1714', 'mustache', 'scar', '#2F6BFF'],
+      ['#1', 'Sergey', 'Brawler · 12-1', 88, '#D9A37A', 'buzz', '#1E1714', 'stubble', 'cauliflower', '#E5132B'],
+      ['#2', 'Shaun Strickler', 'Pressure · 31-7 · 35y', 85, '#F1D3BD', 'crop', '#B8863B', 'stubble', 'none', '#16A34A'],
+      ['#3', 'Hamzat Chimayev', 'Ground & Pound · 15-1 · 32y', 85, '#E2B98F', 'buzz', '#1E1714', 'full', 'cauliflower', '#3F3F46'],
+      ['#4', 'Nassim Imanov', 'Counter · 17-4 · 31y', 83, '#B98A64', 'curls', '#1E1714', 'goatee', 'none', '#7C3AED'],
+      ['#5', 'Driekus du Pleiss', 'Brawler · 24-3 · 32y', 82, '#F1D3BD', 'mohawk', '#5A3A22', 'none', 'broken nose', '#F2B705'],
+      ['#6', 'Kofi Mensah', 'Kickboxer · 18-4 · 27y', 80, '#4A2C1A', 'cornrows', '#1E1714', 'goatee', 'tattoo', '#E5132B']
+    ];
+    return {
+      rows: R.map(r => ({ rk: r[0], rc: r[0] === 'C' ? '#F2B705' : '#A8A39B', name: r[1], sub: r[2], ovr: r[3], skin: r[4], hair: r[5], hc: r[6], beard: r[7], extra: r[8], bg: r[9] }))
+    };
+  }
+}
+</script>
+</body>
+</html>
