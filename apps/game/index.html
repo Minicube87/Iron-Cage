@@ -1939,6 +1939,14 @@ const OCT=r=>{const v=[];for(let k=0;k<8;k++){const a=Math.PI/8+k*Math.PI/4;v.pu
 const OV=OCT(OR);
 const hsh=i=>{const x=Math.sin(i*127.1)*43758.5453;return x-Math.floor(x)};
 function octPath(r){ctx.beginPath();OCT(r).forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.closePath()}
+const MESH_W=1024,MESH_H=384,MESH={};
+function meshTile(front){const k=front?'f':'b';if(MESH[k])return MESH[k];
+  const c=document.createElement('canvas');c.width=MESH_W;c.height=MESH_H;const x=c.getContext('2d');
+  x.fillStyle=front?'rgba(0,0,0,.05)':'rgba(8,6,6,.42)';x.fillRect(0,0,MESH_W,MESH_H);
+  x.strokeStyle=front?'rgba(210,210,210,.05)':'rgba(200,200,200,.17)';x.lineWidth=2.2;const n=14,dd=.45;
+  // gleiche Geometrie wie früher: unten bei t, oben bei t±dd (Textur: y=0 ist die obere Stange)
+  x.beginPath();for(let i=-7;i<=n+7;i++){const t=i/n;for(const s of [-1,1]){x.moveTo(t*MESH_W,MESH_H);x.lineTo((t+s*dd)*MESH_W,0)}}x.stroke();
+  return MESH[k]=c}
 function render(){const base=SC;G.zoom=(G.zoom||1)+((G.state==='gnp'?1.05:clamp(1-(dist()-18)/70,.82,1))-(G.zoom||1))*.08;SC=base*G.zoom;try{render2()}finally{SC=base}}
 function render2(){
   const W=innerWidth,H=innerHeight,c=G.cam,ca=Math.cos(c.a),sa=Math.sin(c.a);
@@ -1968,11 +1976,9 @@ function render2(){
   // Käfig: hintere Seiten vor den Kämpfern, vordere (durchsichtig) danach
   const edges=[];for(let k=0;k<8;k++){const a=VP[k],b=VP[(k+1)%8];edges.push({a,b,back:(a[1]+b[1])/2<=gy-.5})}
   const fence=(e,front)=>{const H1=FH*SC,a=e.a,b=e.b,ta=[a[0],a[1]-H1],tb=[b[0],b[1]-H1];
-    ctx.save();ctx.beginPath();ctx.moveTo(a[0],a[1]);ctx.lineTo(b[0],b[1]);ctx.lineTo(tb[0],tb[1]);ctx.lineTo(ta[0],ta[1]);ctx.closePath();
-    ctx.fillStyle=front?'rgba(0,0,0,.05)':'rgba(8,6,6,.42)';ctx.fill();ctx.clip();
-    ctx.strokeStyle=front?'rgba(210,210,210,.05)':'rgba(200,200,200,.17)';ctx.lineWidth=1;const n=14,dd=.45;
-    ctx.beginPath();for(let i=-7;i<=n+7;i++){const t=i/n;for(const s of [-1,1]){const t2=t+s*dd;ctx.moveTo(a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t);ctx.lineTo(ta[0]+(tb[0]-ta[0])*t2,ta[1]+(tb[1]-ta[1])*t2)}}ctx.stroke();
-    ctx.restore();
+    // Maschendraht: einmal vorgezeichnete Textur, pro Seite nur noch ein verzerrtes Bild (statt ~60 Linien + Clip pro Seite)
+    const tile=meshTile(front),pw=Math.hypot(b[0]-a[0],b[1]-a[1]);
+    if(pw>.5){ctx.save();ctx.transform((b[0]-a[0])/MESH_W,(b[1]-a[1])/MESH_W,0,H1/MESH_H,ta[0],ta[1]);ctx.drawImage(tile,0,0);ctx.restore()}
     ctx.globalAlpha=front?.16:1;ctx.lineCap='round';
     ctx.strokeStyle='#1d1818';ctx.lineWidth=SC*.9;ctx.beginPath();ctx.moveTo(ta[0],ta[1]);ctx.lineTo(tb[0],tb[1]);ctx.stroke();   // obere Stange
     ctx.strokeStyle='#0e0b0b';ctx.lineWidth=SC*1.6;ctx.beginPath();ctx.moveTo(a[0],a[1]-SC*.6);ctx.lineTo(b[0],b[1]-SC*.6);ctx.stroke();   // Polster unten
@@ -2101,11 +2107,13 @@ function loop(ts){
       if(avg>11&&PERF.rs>.55){PERF.rs=Math.max(.55,PERF.rs*.85);PERF.good=0;resize()}
       else if(avg<6&&PERF.rs<1){if(++PERF.good>=2){PERF.rs=Math.min(1,PERF.rs*1.15);PERF.good=0;resize()}}else PERF.good=0}}}
   const _w0=performance.now();
-  let dt=Math.min(.033,Math.max(0,(ts-lastT)/1000));lastT=ts;
+  // echte Zeit seit dem letzten Frame (max. 0,1 s, z. B. nach Tab-Wechsel); bei wenig FPS in 1/60-s-Schritten nachrechnen statt Zeitlupe
+  let dt=Math.min(.1,Math.max(0,(ts-lastT)/1000));lastT=ts;
   if(!G.paused){
     if(G.hitstop>0){G.hitstop-=dt;dt=0}
     if(G.slowT>0){G.slowT-=dt;dt*=G.slow}else G.slow=1;
-    if(dt>0)for(let i=0;i<(G.speed||1)&&G&&!G.shown;i++)update(dt);
+    if(dt>0){const n=Math.min(6,Math.ceil(dt*60-.05)||1),h=dt/n;
+      for(let i=0;i<(G.speed||1)&&G&&!G.shown;i++)for(let k=0;k<n&&G&&!G.shown;k++)update(h)}
   }
   if(!G)return;
   render();hud();PERF.work=performance.now()-_w0;RAF=G.raf=requestAnimationFrame(loop);
