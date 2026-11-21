@@ -2420,9 +2420,12 @@ function navRoot(){const vis=e=>e.classList.contains('on')&&e.getClientRects().l
   if(oskOn())return OSK.el;if(vis($('#md')))return $('#md');if(vis($('#ov')))return $('#ov');return document.querySelector('.screen.on')}
 function navEls(){const r=navRoot();if(!r)return [];return [...r.querySelectorAll('button,summary,input,.camp,[data-fp],.cd.sat,.chip.sat,.gch .chip,.skn')].filter(e=>!e.disabled&&e.offsetParent!==null&&e.getBoundingClientRect().width>0&&!e.closest('#ctl,#wbar,#joyZ'))}
 function setPF(e){if(PAD.edit&&PAD.edit!==e)padEdit(null);if(PF)PF.classList.remove('padf');PF=e;if(!e)return;e.classList.add('padf');PFR=e.getBoundingClientRect();try{e.scrollIntoView({block:'nearest',inline:'nearest'})}catch(_){}}
-function padScroller(){const r=navRoot();if(!r)return null;const ok=e=>{const st=getComputedStyle(e);return /(auto|scroll)/.test(st.overflowY)&&e.scrollHeight>e.clientHeight+4&&e.offsetParent!==null};
+function padScroller(){const r=navRoot();if(!r)return null;
+  // position:fixed elements have offsetParent===null but are valid scrollers
+  const ok=e=>{const st=getComputedStyle(e);return /(auto|scroll)/.test(st.overflowY)&&e.scrollHeight>e.clientHeight+4};
   for(let e=PF&&r.contains(PF)?PF:null;e&&e!==document.body;e=e.parentElement)if(ok(e))return e;
-  let best=null,bh=0;for(const e of [r,...r.querySelectorAll('*')]){if(ok(e)){const h=e.clientHeight;if(h>bh){bh=h;best=e}}}return best||(document.scrollingElement.scrollHeight>innerHeight+4?document.scrollingElement:null)}
+  if(ok(r))return r;
+  let best=null,bh=0;for(const e of r.querySelectorAll('*')){if(ok(e)){const h=e.clientHeight;if(h>bh){bh=h;best=e}}}return best||(document.scrollingElement.scrollHeight>innerHeight+4?document.scrollingElement:null)}
 function padScroll(dy){const e=padScroller();if(!e)return false;const before=e.scrollTop;e.scrollTop+=dy;return e.scrollTop!==before}
 function navMove(dx,dy){const L=navEls();if(!L.length)return;
   // Schieberegler (Größe, Reichweite, Lautstärke …): Links/Rechts verändert den Wert, Halten wird schneller
