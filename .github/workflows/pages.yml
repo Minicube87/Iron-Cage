@@ -2,7 +2,7 @@ name: Deploy game to GitHub Pages
 
 on:
   push:
-    branches: [main]
+    branches: [main, feature/ground-game]
     paths:
       - "apps/game/**"
       - ".github/workflows/pages.yml"
@@ -24,10 +24,33 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout main (root)
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: main-branch
+
+      - name: Checkout feature/ground-game (v2)
+        uses: actions/checkout@v4
+        with:
+          ref: feature/ground-game
+          path: feature-branch
+        continue-on-error: true
+
+      - name: Assemble site
+        run: |
+          mkdir -p site
+          cp -r main-branch/apps/game/. site/
+          if [ -d feature-branch/apps/game ]; then
+            mkdir -p site/v2
+            cp -r feature-branch/apps/game/. site/v2/
+          fi
+
       - uses: actions/configure-pages@v5
+
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: apps/game
+          path: site
+
       - id: deployment
         uses: actions/deploy-pages@v4
