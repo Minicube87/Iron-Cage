@@ -2096,10 +2096,11 @@ function hud(){
 }
 function loop(ts){
   if(!G)return;
-  {const ft=ts-lastT;if(ft>0&&ft<250&&!G.paused&&!document.hidden){PERF.acc+=ft;PERF.n++;
-    if(PERF.n>=45){const avg=PERF.acc/PERF.n;PERF.acc=PERF.n=0;
-      if(avg>21&&PERF.rs>.55){PERF.rs=Math.max(.55,PERF.rs*.85);PERF.good=0;resize()}
-      else if(avg<14.5&&PERF.rs<1){if(++PERF.good>=4){PERF.rs=Math.min(1,PERF.rs*1.12);PERF.good=0;resize()}}else PERF.good=0}}}
+  {const w=PERF.work;if(w>0&&!G.paused&&!document.hidden){PERF.acc+=w;PERF.n++;
+    if(PERF.n>=45){const avg=PERF.acc/PERF.n;PERF.acc=PERF.n=0;   // avg = echte Rechenzeit pro Frame (Update + Zeichnen)
+      if(avg>11&&PERF.rs>.55){PERF.rs=Math.max(.55,PERF.rs*.85);PERF.good=0;resize()}
+      else if(avg<6&&PERF.rs<1){if(++PERF.good>=2){PERF.rs=Math.min(1,PERF.rs*1.15);PERF.good=0;resize()}}else PERF.good=0}}}
+  const _w0=performance.now();
   let dt=Math.min(.033,Math.max(0,(ts-lastT)/1000));lastT=ts;
   if(!G.paused){
     if(G.hitstop>0){G.hitstop-=dt;dt=0}
@@ -2107,7 +2108,7 @@ function loop(ts){
     if(dt>0)for(let i=0;i<(G.speed||1)&&G&&!G.shown;i++)update(dt);
   }
   if(!G)return;
-  render();hud();RAF=G.raf=requestAnimationFrame(loop);
+  render();hud();PERF.work=performance.now()-_w0;RAF=G.raf=requestAnimationFrame(loop);
 }
 
 /* --- Ergebnis & Karriere-Folgen --- */
