@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Iron Cage – Avatar creator</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+button{font:inherit;cursor:pointer}
+</style>
+</helmet>
+<div style="width: 844px; height: 390px; box-sizing: border-box; padding: 14px 16px; background: #0A0A0C; font-family: Inter, system-ui, sans-serif; color: #F4F1EA; display: grid; grid-template-columns: 268px minmax(0, 1fr); gap: 16px; overflow: hidden">
+
+  <div style="display: flex; flex-direction: column; align-items: center; gap: 10px; background: #121116; border: 1px solid rgba(255,255,255,0.07); border-radius: 14px; padding: 14px">
+    <div style="align-self: stretch; display: flex; justify-content: space-between; align-items: center">
+      <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.16em; color: #A8A39B">YOUR FIGHTER</span>
+      <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.1em; padding: 3px 7px; border-radius: 6px; background: rgba(242,183,5,0.14); color: #F2B705">LIGHTWEIGHT</span>
+    </div>
+    <dc-import name="Face" skin="{{skin}}" hair-style="{{hairStyle}}" hair-color="{{hairColor}}" beard="{{beard}}" extra="{{extra}}" bg="{{bg}}" size="{{ 212 }}" hint-size="212px,212px"></dc-import>
+    <div style="text-align: center">
+      <div style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 28px; line-height: 1; letter-spacing: 0.03em">SERGEY</div>
+      <div style="font-size: 11px; font-weight: 600; color: #A8A39B; margin-top: 4px">“Dragovic” · Brawler · 12-1</div>
+    </div>
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 9px; min-width: 0">
+    <div style="display: flex; align-items: baseline; justify-content: space-between">
+      <h1 style="margin: 0; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 26px; letter-spacing: 0.04em">FIGHTER LOOK</h1>
+      <span style="font-size: 11px; color: #A8A39B">Shown in rankings, fight cards and the octagon</span>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 82px minmax(0, 1fr); align-items: center; gap: 8px">
+      <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.14em; color: #A8A39B">HAIR</span>
+      <div style="display: flex; flex-wrap: wrap; gap: 5px">
+        <sc-for list="{{hairOpts}}" as="o" hint-placeholder-count="7">
+          <button onClick="{{o.pick}}" style="border: 0; border-radius: 8px; padding: 6px 10px; background: {{o.bgc}}; color: {{o.fg}}; font-size: 12px; font-weight: 700">{{o.label}}</button>
+        </sc-for>
+      </div>
+
+      <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.14em; color: #A8A39B">HAIR COLOR</span>
+      <div style="display: flex; gap: 7px">
+        <sc-for list="{{hairCols}}" as="o" hint-placeholder-count="5">
+          <button onClick="{{o.pick}}" aria-label="{{o.label}}" style="width: 30px; height: 30px; border-radius: 50%; background: {{o.c}}; border: {{o.ring}}; box-sizing: border-box"></button>
+        </sc-for>
+      </div>
+
+      <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.14em; color: #A8A39B">BEARD</span>
+      <div style="display: flex; flex-wrap: wrap; gap: 5px">
+        <sc-for list="{{beardOpts}}" as="o" hint-placeholder-count="5">
+          <button onClick="{{o.pick}}" style="border: 0; border-radius: 8px; padding: 6px 10px; background: {{o.bgc}}; color: {{o.fg}}; font-size: 12px; font-weight: 700">{{o.label}}</button>
+        </sc-for>
+      </div>
+
+      <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.14em; color: #A8A39B">SKIN</span>
+      <div style="display: flex; gap: 7px">
+        <sc-for list="{{skinCols}}" as="o" hint-placeholder-count="6">
+          <button onClick="{{o.pick}}" aria-label="{{o.label}}" style="width: 30px; height: 30px; border-radius: 50%; background: {{o.c}}; border: {{o.ring}}; box-sizing: border-box"></button>
+        </sc-for>
+      </div>
+
+      <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.14em; color: #A8A39B">FIGHT MARKS</span>
+      <div style="display: flex; flex-wrap: wrap; gap: 5px">
+        <sc-for list="{{extraOpts}}" as="o" hint-placeholder-count="5">
+          <button onClick="{{o.pick}}" style="border: 0; border-radius: 8px; padding: 6px 10px; background: {{o.bgc}}; color: {{o.fg}}; font-size: 12px; font-weight: 700">{{o.label}}</button>
+        </sc-for>
+      </div>
+
+      <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.14em; color: #A8A39B">CORNER</span>
+      <div style="display: flex; gap: 7px">
+        <sc-for list="{{bgCols}}" as="o" hint-placeholder-count="6">
+          <button onClick="{{o.pick}}" aria-label="{{o.label}}" style="width: 30px; height: 30px; border-radius: 8px; background: {{o.c}}; border: {{o.ring}}; box-sizing: border-box"></button>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="margin-top: auto; display: flex; gap: 10px">
+      <button onClick="{{shuffle}}" style="flex: 1; border: 1px solid rgba(255,255,255,0.16); border-radius: 10px; padding: 11px 0; background: transparent; color: #F4F1EA; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 17px; letter-spacing: 0.06em">RANDOMIZE</button>
+      <button style="flex: 2; border: 0; border-radius: 10px; padding: 11px 0; background: #E5132B; color: #FFFFFF; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 17px; letter-spacing: 0.06em">SAVE LOOK</button>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":844,"height":390}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { hairStyle: 'buzz', hairColor: '#1E1714', beard: 'stubble', extra: 'cauliflower', skin: '#D9A37A', bg: '#E5132B' };
+  }
+  renderVals() {
+    const s = this.state;
+    const chip = (key, list) => list.map(([v, label]) => ({
+      label, bgc: s[key] === v ? '#E5132B' : '#1E1D24', fg: s[key] === v ? '#FFFFFF' : '#C9C4BB',
+      pick: () => this.setState({ [key]: v })
+    }));
+    const sw = (key, list) => list.map(([c, label]) => ({
+      c, label, ring: s[key] === c ? '3px solid #F2B705' : '2px solid rgba(255,255,255,0.12)',
+      pick: () => this.setState({ [key]: c })
+    }));
+    const hairs = [['bald', 'Bald'], ['buzz', 'Buzz'], ['crop', 'Crop'], ['mohawk', 'Mohawk'], ['curls', 'Curls'], ['cornrows', 'Cornrows'], ['bun', 'Man bun']];
+    const beards = [['none', 'None'], ['stubble', 'Stubble'], ['goatee', 'Goatee'], ['mustache', 'Mustache'], ['full', 'Full beard']];
+    const extras = [['none', 'Clean'], ['scar', 'Eyebrow scar'], ['cauliflower', 'Cauliflower ears'], ['broken nose', 'Broken nose'], ['tattoo', 'Tattoos']];
+    const hairC = [['#1E1714', 'Black'], ['#5A3A22', 'Brown'], ['#B8863B', 'Blond'], ['#8E3B1F', 'Red'], ['#C9C4BB', 'Grey']];
+    const skins = [['#F1D3BD', 'Skin 1'], ['#E2B98F', 'Skin 2'], ['#D9A37A', 'Skin 3'], ['#B98A64', 'Skin 4'], ['#8D5A3B', 'Skin 5'], ['#4A2C1A', 'Skin 6']];
+    const bgs = [['#E5132B', 'Red corner'], ['#2F6BFF', 'Blue corner'], ['#F2B705', 'Gold'], ['#16A34A', 'Green'], ['#7C3AED', 'Purple'], ['#3F3F46', 'Steel']];
+    const pick = a => a[Math.floor(Math.random() * a.length)][0];
+    return {
+      ...s,
+      hairOpts: chip('hairStyle', hairs), beardOpts: chip('beard', beards), extraOpts: chip('extra', extras),
+      hairCols: sw('hairColor', hairC), skinCols: sw('skin', skins), bgCols: sw('bg', bgs),
+      shuffle: () => this.setState({ hairStyle: pick(hairs), beard: pick(beards), extra: pick(extras), hairColor: pick(hairC), skin: pick(skins), bg: pick(bgs) })
+    };
+  }
+}
+</script>
+</body>
+</html>

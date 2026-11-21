@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Iron Cage – Fight result</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+button{font:inherit;cursor:pointer}
+</style>
+</helmet>
+<div style="width: 844px; height: 390px; box-sizing: border-box; position: relative; overflow: hidden; background: #0A0A0C; font-family: Inter, system-ui, sans-serif; color: #F4F1EA; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 16px; padding: 18px 20px">
+  <div style="position: absolute; left: -40px; top: -60px; width: 420px; height: 420px; border-radius: 50%; background: radial-gradient(circle, rgba(242,183,5,0.18), rgba(242,183,5,0) 70%)"></div>
+
+  <div style="position: relative; display: flex; flex-direction: column; gap: 8px">
+    <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.2em; color: #F2B705">LIGHTWEIGHT TITLE · ROUND 3 · 2:14</span>
+    <div style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 76px; line-height: 0.88; letter-spacing: 0.01em">NEW<br>CHAMPION</div>
+    <div style="display: flex; align-items: center; gap: 10px; margin-top: 4px">
+      <span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 26px; color: {{accent}}">TKO</span>
+      <span style="font-size: 13px; font-weight: 600; color: #C9C4BB">Ground &amp; pound · Sergey def. King Ming</span>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-top: auto">
+      <div style="background: #121116; border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; padding: 10px 12px">
+        <div style="font-size: 10px; font-weight: 700; letter-spacing: 0.12em; color: #A8A39B">STRIKES</div>
+        <div style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 26px; line-height: 1.1">64<span style="color: #A8A39B; font-size: 18px"> – 51</span></div>
+      </div>
+      <div style="background: #121116; border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; padding: 10px 12px">
+        <div style="font-size: 10px; font-weight: 700; letter-spacing: 0.12em; color: #A8A39B">ACCURACY</div>
+        <div style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 26px; line-height: 1.1">71%<span style="color: #A8A39B; font-size: 18px"> – 62%</span></div>
+      </div>
+      <div style="background: #121116; border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; padding: 10px 12px">
+        <div style="font-size: 10px; font-weight: 700; letter-spacing: 0.12em; color: #A8A39B">KNOCKDOWNS</div>
+        <div style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 26px; line-height: 1.1">2<span style="color: #A8A39B; font-size: 18px"> – 0</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="position: relative; display: flex; flex-direction: column; gap: 10px">
+    <div style="background: #121116; border: 1px solid rgba(255,255,255,0.07); border-radius: 14px; padding: 12px 14px; display: flex; flex-direction: column; gap: 7px">
+      <div style="display: flex; justify-content: space-between; align-items: baseline">
+        <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.14em; color: #A8A39B">TRAINING POINTS</span>
+        <span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 26px; color: #F2B705">+15</span>
+      </div>
+      <sc-for list="{{xp}}" as="x" hint-placeholder-count="5">
+        <div style="display: flex; justify-content: space-between; font-size: 12px"><span style="color: #C9C4BB">{{x.t}}</span><span style="font-weight: 700">{{x.v}}</span></div>
+      </sc-for>
+    </div>
+    <div style="display: flex; align-items: center; gap: 12px; background: #121116; border: 1px solid rgba(255,255,255,0.07); border-radius: 14px; padding: 10px 14px">
+      <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.14em; color: #A8A39B">RANKING</span>
+      <span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 22px; color: #A8A39B">#2</span>
+      <svg aria-hidden="true" width="22" height="12" viewBox="0 0 22 12"><path d="M1 6 H19 M14 1 L20 6 L14 11" stroke="#22C55E" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 22px; color: #F2B705">CHAMPION</span>
+    </div>
+    <button style="margin-top: auto; border: 0; border-radius: 12px; padding: 13px 0; background: {{accent}}; color: #FFF; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 20px; letter-spacing: 0.06em">CONTINUE</button>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#E5132B","options":["#E5132B","#F2B705","#22C55E","#A855F7"]},"$preview":{"width":844,"height":390}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      accent: this.props.accent ?? '#E5132B',
+      xp: [
+        { t: 'Win', v: '+5' },
+        { t: 'Finish (TKO)', v: '+3' },
+        { t: 'Beat a higher-ranked fighter', v: '+2' },
+        { t: 'Beat your rival', v: '+2' },
+        { t: 'Fight of the Night', v: '+3' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

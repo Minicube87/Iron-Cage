@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Iron Cage – Fighter avatar</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: {{sz}}; height: {{sz}}; border-radius: {{rad}}; overflow: hidden; background: {{bgGrad}}; position: relative">
+<svg viewBox="0 0 100 100" width="100%" height="100%" role="img" aria-label="Fighter avatar" style="display: block">
+  <path d="M0 100 L0 62 L100 30 L100 100 Z" fill="#000" opacity="0.18"></path>
+  <path d="M6 100 C8 83 24 75 37 72 L63 72 C76 75 92 83 94 100 Z" fill="{{skin}}"></path>
+  <path d="M28 82 C36 76 43 74 50 74 C57 74 64 76 72 82 C64 80 57 79 50 79 C43 79 36 80 28 82 Z" fill="{{shade}}" opacity="0.55"></path>
+  <sc-if value="{{tattoo}}" hint-placeholder-val="{{ false }}">
+    <path d="M70 80 C76 82 80 86 82 92 M74 84 C78 86 80 89 81 93 M68 86 C73 88 76 92 77 97" stroke="#1d2433" stroke-width="1.6" fill="none" stroke-linecap="round" opacity="0.8"></path>
+    <path d="M24 84 L30 80 L28 88 L34 85" stroke="#1d2433" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.8"></path>
+  </sc-if>
+  <path d="M40 55 L40 74 C44 77.5 56 77.5 60 74 L60 55 Z" fill="{{shade}}"></path>
+  <sc-if value="{{cauli}}" hint-placeholder-val="{{ false }}">
+    <circle cx="28.5" cy="43" r="4.6" fill="{{skin}}"></circle><circle cx="29.5" cy="48.5" r="3.6" fill="{{shade}}"></circle><circle cx="27.5" cy="46" r="2.2" fill="{{shade}}" opacity="0.7"></circle>
+    <circle cx="71.5" cy="43" r="4.6" fill="{{skin}}"></circle><circle cx="70.5" cy="48.5" r="3.6" fill="{{shade}}"></circle><circle cx="72.5" cy="46" r="2.2" fill="{{shade}}" opacity="0.7"></circle>
+  </sc-if>
+  <sc-if value="{{earsPlain}}" hint-placeholder-val="{{ true }}">
+    <ellipse cx="29.5" cy="45" rx="3.6" ry="5.8" fill="{{shade}}"></ellipse>
+    <ellipse cx="70.5" cy="45" rx="3.6" ry="5.8" fill="{{shade}}"></ellipse>
+  </sc-if>
+  <path d="M30.5 40 C30.5 24 39 16 50 16 C61 16 69.5 24 69.5 40 L68.8 50 C67.5 60 60 67.5 50 67.5 C40 67.5 32.5 60 31.2 50 Z" fill="{{skin}}"></path>
+  <path d="M33 52 C36 61 43 66.5 50 66.5 C57 66.5 64 61 67 52 C63 58.5 57 61.5 50 61.5 C43 61.5 37 58.5 33 52 Z" fill="{{shade}}" opacity="0.4"></path>
+  <sc-if value="{{bald}}" hint-placeholder-val="{{ false }}">
+    <ellipse cx="43" cy="23" rx="7" ry="2.6" fill="#fff" opacity="0.18"></ellipse>
+  </sc-if>
+  <sc-if value="{{buzz}}" hint-placeholder-val="{{ false }}">
+    <path d="M30.6 38 C30 22.5 39 15.6 50 15.6 C61 15.6 70 22.5 69.4 38 C66 30 60 26.5 50 26.5 C40 26.5 34 30 30.6 38 Z" fill="{{hair}}" opacity="0.6"></path>
+  </sc-if>
+  <sc-if value="{{crop}}" hint-placeholder-val="{{ true }}">
+    <path d="M29.6 40 C27.5 21 38 12.5 50 12.5 C62 12.5 72.5 21 70.4 40 C68.5 31 63 26 55 25.5 C51 27.5 44 28 38 26.5 C33 29 31 33.5 29.6 40 Z" fill="{{hair}}"></path>
+  </sc-if>
+  <sc-if value="{{mohawk}}" hint-placeholder-val="{{ false }}">
+    <path d="M30.6 38 C30 22.5 39 15.6 50 15.6 C61 15.6 70 22.5 69.4 38 C66 30 60 26.5 50 26.5 C40 26.5 34 30 30.6 38 Z" fill="{{hair}}" opacity="0.3"></path>
+    <path d="M45 27 C43.5 18 45 9 50 6 C55 9 56.5 18 55 27 C52.5 25.8 47.5 25.8 45 27 Z" fill="{{hair}}"></path>
+  </sc-if>
+  <sc-if value="{{curls}}" hint-placeholder-val="{{ false }}">
+    <circle cx="33" cy="31" r="5.5" fill="{{hair}}"></circle><circle cx="38" cy="22" r="6.5" fill="{{hair}}"></circle><circle cx="47" cy="17" r="7" fill="{{hair}}"></circle>
+    <circle cx="57" cy="18" r="7" fill="{{hair}}"></circle><circle cx="64" cy="24" r="6.5" fill="{{hair}}"></circle><circle cx="67.5" cy="32" r="5.2" fill="{{hair}}"></circle>
+    <circle cx="44" cy="25" r="5" fill="{{hair}}"></circle><circle cx="54" cy="25" r="5" fill="{{hair}}"></circle>
+  </sc-if>
+  <sc-if value="{{rows}}" hint-placeholder-val="{{ false }}">
+    <path d="M30 39 C28.5 21.5 38.5 13.5 50 13.5 C61.5 13.5 71.5 21.5 70 39 C67 30 61 26 50 26 C39 26 33 30 30 39 Z" fill="{{hair}}"></path>
+    <path d="M38 26.5 C38 21 39.5 17 42 15 M44.5 26 C44.5 20 45.5 15.5 47 14 M51 26 C51 20 51.5 15.5 52.5 13.8 M57.5 26.5 C57.5 21 58 17 59.5 15 M63.5 28.5 C64 24 64.5 20.5 65.5 18.5" stroke="#000" stroke-width="0.9" opacity="0.4" fill="none" stroke-linecap="round"></path>
+  </sc-if>
+  <sc-if value="{{bun}}" hint-placeholder-val="{{ false }}">
+    <path d="M30 39 C28.5 21.5 38.5 14 50 14 C61.5 14 71.5 21.5 70 39 C67 29 60 23.5 50 23.5 C40 23.5 33 29 30 39 Z" fill="{{hair}}"></path>
+    <circle cx="50" cy="10" r="6.2" fill="{{hair}}"></circle>
+    <path d="M45 14.5 C48 15.5 52 15.5 55 14.5" stroke="#000" stroke-width="1" opacity="0.35" fill="none"></path>
+  </sc-if>
+  <path d="M36.5 38.5 L45.5 40" stroke="{{brow}}" stroke-width="2.6" stroke-linecap="round"></path>
+  <path d="M54.5 40 L63.5 38.5" stroke="{{brow}}" stroke-width="2.6" stroke-linecap="round"></path>
+  <ellipse cx="41.5" cy="44" rx="2.5" ry="1.6" fill="#18110F"></ellipse>
+  <ellipse cx="58.5" cy="44" rx="2.5" ry="1.6" fill="#18110F"></ellipse>
+  <sc-if value="{{noseStraight}}" hint-placeholder-val="{{ true }}">
+    <path d="M50 43 L48.2 51.5 C49.3 52.8 50.7 52.8 52 51.6" stroke="{{shade}}" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"></path>
+  </sc-if>
+  <sc-if value="{{noseBroken}}" hint-placeholder-val="{{ false }}">
+    <path d="M50 43 L51.8 46.5 L48.6 51.5 C49.6 53 51.2 53 52.6 51.8" stroke="{{shade}}" stroke-width="1.9" fill="none" stroke-linecap="round" stroke-linejoin="round"></path>
+  </sc-if>
+  <sc-if value="{{stubble}}" hint-placeholder-val="{{ false }}">
+    <path d="M32 50 C34 62.5 42 68.5 50 68.5 C58 68.5 66 62.5 68 50 C66 56.5 62 58.5 58 58.5 C55 61.5 45 61.5 42 58.5 C38 58.5 34 56.5 32 50 Z" fill="{{hair}}" opacity="0.32"></path>
+  </sc-if>
+  <sc-if value="{{full}}" hint-placeholder-val="{{ false }}">
+    <path d="M31 46 C30.5 64.5 40 73 50 73 C60 73 69.5 64.5 69 46 C67 55 63 58.5 59 58.5 C56 62.5 44 62.5 41 58.5 C37 58.5 33 55 31 46 Z" fill="{{hair}}"></path>
+  </sc-if>
+  <sc-if value="{{goatee}}" hint-placeholder-val="{{ false }}">
+    <path d="M44.5 58.5 C45.5 65 48 67.5 50 67.5 C52 67.5 54.5 65 55.5 58.5 C53 60.5 47 60.5 44.5 58.5 Z" fill="{{hair}}"></path>
+  </sc-if>
+  <sc-if value="{{stache}}" hint-placeholder-val="{{ false }}">
+    <path d="M42.5 56 C45.5 53.6 54.5 53.6 57.5 56 C55 57.2 45 57.2 42.5 56 Z" fill="{{hair}}"></path>
+  </sc-if>
+  <path d="M45 57.5 C48 58.6 52 58.6 55 57.5" stroke="#5A2E26" stroke-width="1.6" fill="none" stroke-linecap="round"></path>
+  <sc-if value="{{scar}}" hint-placeholder-val="{{ false }}">
+    <path d="M57 32 L62.5 44" stroke="#B9655A" stroke-width="1.3" stroke-linecap="round"></path>
+    <path d="M57.8 35 L60.3 34 M59.2 38 L61.7 37 M60.6 41 L63 40" stroke="#B9655A" stroke-width="0.8" stroke-linecap="round"></path>
+  </sc-if>
+</svg>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"skin":{"editor":"color","default":"#D9A37A","options":["#F1D3BD","#D9A37A","#8D5A3B","#4A2C1A"]},"hairStyle":{"editor":"enum","default":"crop","options":["bald","buzz","crop","mohawk","curls","cornrows","bun"]},"hairColor":{"editor":"color","default":"#1E1714","options":["#1E1714","#5A3A22","#B8863B","#C9C4BB"]},"beard":{"editor":"enum","default":"stubble","options":["none","stubble","goatee","mustache","full"]},"extra":{"editor":"enum","default":"none","options":["none","scar","cauliflower","broken nose","tattoo"]},"bg":{"editor":"color","default":"#E5132B","options":["#E5132B","#2F6BFF","#F2B705","#16A34A"]},"size":{"editor":"int","default":220,"min":24,"max":400},"$preview":{"width":220,"height":220}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const mix = (hex, amt) => {
+      const h = String(hex || '#888888').replace('#', '');
+      const n = parseInt(h.length === 3 ? h.split('').map(c => c + c).join('') : h, 16);
+      const f = c => Math.max(0, Math.min(255, Math.round(c * (1 - amt))));
+      const r = f((n >> 16) & 255), g = f((n >> 8) & 255), b = f(n & 255);
+      return '#' + [r, g, b].map(v => v.toString(16).padStart(2, '0')).join('');
+    };
+    const p = this.props;
+    const skin = p.skin ?? '#D9A37A';
+    const hairStyle = p.hairStyle ?? 'crop';
+    const hair = p.hairColor ?? '#1E1714';
+    const beard = p.beard ?? 'stubble';
+    const extra = p.extra ?? 'none';
+    const bg = p.bg ?? '#E5132B';
+    const size = p.size ?? 220;
+    return {
+      sz: size + 'px',
+      rad: Math.round(size * 0.18) + 'px',
+      bgGrad: 'linear-gradient(155deg, ' + bg + ' 0%, ' + mix(bg, 0.55) + ' 100%)',
+      skin, hair, shade: mix(skin, 0.18), brow: hairStyle === 'bald' ? mix(skin, 0.6) : mix(hair, 0.1),
+      bald: hairStyle === 'bald', buzz: hairStyle === 'buzz', crop: hairStyle === 'crop', mohawk: hairStyle === 'mohawk',
+      curls: hairStyle === 'curls', rows: hairStyle === 'cornrows', bun: hairStyle === 'bun',
+      stubble: beard === 'stubble', full: beard === 'full', goatee: beard === 'goatee', stache: beard === 'mustache' || beard === 'goatee' || beard === 'full',
+      scar: extra === 'scar', cauli: extra === 'cauliflower', earsPlain: extra !== 'cauliflower',
+      noseBroken: extra === 'broken nose', noseStraight: extra !== 'broken nose', tattoo: extra === 'tattoo'
+    };
+  }
+}
+</script>
+</body>
+</html>

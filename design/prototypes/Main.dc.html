@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Iron Cage – Fight HUD</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+button{font:inherit;cursor:pointer}
+</style>
+</helmet>
+<div style="width: 844px; height: 390px; position: relative; overflow: hidden; background: #08080A; font-family: Inter, system-ui, sans-serif; color: #F4F1EA">
+
+  <svg aria-hidden="true" width="844" height="390" viewBox="0 0 844 390" style="position: absolute; left: 0; top: 0">
+    <defs>
+      <radialGradient id="spot" cx="50%" cy="38%" r="60%"><stop offset="0" stop-color="#3A3330" stop-opacity="0.9"/><stop offset="1" stop-color="#08080A" stop-opacity="0"/></radialGradient>
+      <pattern id="mesh" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path d="M0 0 L0 9" stroke="#C9C2B8" stroke-opacity="0.16" stroke-width="1"/></pattern>
+      <pattern id="mesh2" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)"><path d="M0 0 L0 9" stroke="#C9C2B8" stroke-opacity="0.16" stroke-width="1"/></pattern>
+    </defs>
+    <rect width="844" height="390" fill="url(#spot)"/>
+    <g fill="#0F0C0C">
+      <circle cx="40" cy="128" r="11"/><circle cx="78" cy="122" r="12"/><circle cx="118" cy="130" r="10"/><circle cx="160" cy="124" r="12"/><circle cx="700" cy="126" r="11"/><circle cx="742" cy="120" r="12"/><circle cx="782" cy="130" r="10"/><circle cx="820" cy="123" r="12"/>
+      <rect x="0" y="134" width="844" height="60"/>
+    </g>
+    <polygon points="196,170 330,138 514,138 648,170 698,236 648,320 196,320 146,236" fill="#141012"/>
+    <polygon points="226,182 340,156 504,156 618,182 660,236 618,300 226,300 184,236" fill="#2C2525"/>
+    <ellipse cx="422" cy="232" rx="150" ry="44" fill="none" stroke="#E5132B" stroke-opacity="0.5" stroke-width="2"/>
+    <text x="422" y="240" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-weight="800" font-size="30" fill="#E5132B" fill-opacity="0.55" letter-spacing="3">IRON CAGE</text>
+    <g>
+      <polygon points="196,170 330,138 330,58 196,90" fill="url(#mesh)"/><polygon points="196,170 330,138 330,58 196,90" fill="url(#mesh2)"/>
+      <polygon points="330,138 514,138 514,58 330,58" fill="url(#mesh)"/><polygon points="330,138 514,138 514,58 330,58" fill="url(#mesh2)"/>
+      <polygon points="514,138 648,170 648,90 514,58" fill="url(#mesh)"/><polygon points="514,138 648,170 648,90 514,58" fill="url(#mesh2)"/>
+      <polygon points="146,236 196,170 196,90 146,156" fill="url(#mesh)"/><polygon points="698,236 648,170 648,90 698,156" fill="url(#mesh2)"/>
+      <path d="M146 156 L196 90 L330 58 L514 58 L648 90 L698 156" fill="none" stroke="#1E1919" stroke-width="5"/>
+      <g fill="#0E0B0B"><rect x="193" y="88" width="6" height="84"/><rect x="327" y="56" width="6" height="84"/><rect x="511" y="56" width="6" height="84"/><rect x="645" y="88" width="6" height="84"/></g>
+      <g fill="#E5132B" fill-opacity="0.7"><rect x="193" y="118" width="6" height="10"/><rect x="327" y="86" width="6" height="10"/><rect x="511" y="86" width="6" height="10"/><rect x="645" y="118" width="6" height="10"/></g>
+    </g>
+    <ellipse cx="372" cy="262" rx="40" ry="7" fill="#000" fill-opacity="0.5"/>
+    <ellipse cx="478" cy="262" rx="40" ry="7" fill="#000" fill-opacity="0.5"/>
+    <g stroke-linecap="round" stroke-linejoin="round" fill="none">
+      <path d="M352 260 L364 222 L374 196" stroke="#B9835D" stroke-width="12"/>
+      <path d="M392 260 L384 224 L378 196" stroke="#D9A37A" stroke-width="13"/>
+      <path d="M368 150 L380 198" stroke="#D9A37A" stroke-width="26"/>
+      <path d="M368 152 L392 166 L414 150" stroke="#B9835D" stroke-width="9"/>
+      <path d="M374 150 L396 160 L428 152" stroke="#D9A37A" stroke-width="9"/>
+      <path d="M498 260 L488 222 L478 196" stroke="#8D5A3B" stroke-width="12"/>
+      <path d="M458 260 L466 224 L472 196" stroke="#A87650" stroke-width="13"/>
+      <path d="M482 150 L470 198" stroke="#A87650" stroke-width="26"/>
+      <path d="M482 152 L458 168 L440 158" stroke="#8D5A3B" stroke-width="9"/>
+      <path d="M476 150 L456 164 L446 172" stroke="#A87650" stroke-width="9"/>
+    </g>
+    <rect x="360" y="190" width="30" height="20" rx="4" fill="#E5132B"/>
+    <rect x="460" y="190" width="30" height="20" rx="4" fill="#2F6BFF"/>
+    <circle cx="370" cy="130" r="14" fill="#D9A37A"/><path d="M356 128 A14 14 0 0 1 384 126 Z" fill="#1A1210"/>
+    <circle cx="480" cy="130" r="14" fill="#A87650"/><path d="M466 126 A14 14 0 0 1 494 128 Z" fill="#1A1210"/>
+    <circle cx="430" cy="152" r="8" fill="#E5132B"/><circle cx="414" cy="150" r="7" fill="#B0101F"/>
+    <circle cx="442" cy="160" r="7" fill="#2F6BFF"/><circle cx="446" cy="172" r="7" fill="#1E4FCC"/>
+    <g fill="#FFF"><circle cx="452" cy="140" r="2.4"/><circle cx="462" cy="134" r="1.6"/><circle cx="458" cy="148" r="1.8"/><circle cx="447" cy="130" r="1.4"/></g>
+  </svg>
+
+  <div style="position: absolute; left: 14px; right: 14px; top: 12px; display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 12px; align-items: start">
+    <div style="display: flex; flex-direction: column; gap: 5px">
+      <div style="display: flex; align-items: stretch; height: 30px">
+        <div style="width: 8px; background: {{accent}}; transform: skewX(-14deg); margin-right: 6px"></div>
+        <div style="display: flex; align-items: center; gap: 10px; padding: 0 14px; background: #131217; transform: skewX(-14deg)">
+          <span style="transform: skewX(14deg); font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 21px; letter-spacing: 0.04em">SERGEY</span>
+          <span style="transform: skewX(14deg); font-size: 11px; font-weight: 600; color: #A8A39B">“DRAGOVIC” · 12-1 · #2</span>
+        </div>
+      </div>
+      <div style="height: 12px; background: #1B1A20; transform: skewX(-14deg); position: relative; overflow: hidden">
+        <div style="position: absolute; left: 0; top: 0; bottom: 0; width: 78%; background: #F7B32B"></div>
+        <div style="position: absolute; left: 0; top: 0; bottom: 0; width: 72%; background: {{accent}}"></div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 8px">
+        <div style="flex: 1; height: 4px; background: #1B1A20; transform: skewX(-14deg)"><div style="width: 54%; height: 100%; background: #3FB6FF"></div></div>
+        <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.12em; color: #A8A39B">STAMINA</span>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; align-items: center; background: #0D0C10; border: 1px solid rgba(255,255,255,0.1); padding: 4px 16px 6px; min-width: 104px">
+      <span style="font-size: 9px; font-weight: 700; letter-spacing: 0.18em; color: #F2B705">LW TITLE</span>
+      <span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 34px; line-height: 1; letter-spacing: 0.02em">0:43</span>
+      <span style="font-size: 9px; font-weight: 700; letter-spacing: 0.16em; color: #A8A39B">ROUND 2 / 3</span>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 5px; align-items: stretch">
+      <div style="display: flex; align-items: stretch; height: 30px; justify-content: flex-end">
+        <div style="display: flex; align-items: center; gap: 10px; padding: 0 14px; background: #131217; transform: skewX(14deg)">
+          <span style="transform: skewX(-14deg); font-size: 11px; font-weight: 600; color: #A8A39B">C · 18-4 · “UIGURE”</span>
+          <span style="transform: skewX(-14deg); font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 21px; letter-spacing: 0.04em">KING MING</span>
+        </div>
+        <div style="width: 8px; background: #2F6BFF; transform: skewX(14deg); margin-left: 6px"></div>
+      </div>
+      <div style="height: 12px; background: #1B1A20; transform: skewX(14deg); position: relative; overflow: hidden">
+        <div style="position: absolute; right: 0; top: 0; bottom: 0; width: 64%; background: #F7B32B"></div>
+        <div style="position: absolute; right: 0; top: 0; bottom: 0; width: 51%; background: #2F6BFF"></div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 8px">
+        <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.12em; color: #A8A39B">● ●</span>
+        <div style="flex: 1; height: 4px; background: #1B1A20; transform: skewX(14deg); display: flex; justify-content: flex-end"><div style="width: 81%; height: 100%; background: #3FB6FF"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="position: absolute; left: 50%; top: 100px; transform: translateX(-50%); font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 22px; letter-spacing: 0.08em; color: #F2B705">COUNTER!</div>
+
+  <div style="position: absolute; left: 30px; bottom: 22px; width: 108px; height: 108px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.16); background: rgba(10,10,12,0.55); display: flex; align-items: center; justify-content: center">
+    <div style="position: absolute; top: 6px; left: 50%; width: 2px; height: 8px; margin-left: -1px; background: rgba(255,255,255,0.3)"></div>
+    <div style="position: absolute; bottom: 6px; left: 50%; width: 2px; height: 8px; margin-left: -1px; background: rgba(255,255,255,0.3)"></div>
+    <div style="position: absolute; left: 6px; top: 50%; width: 8px; height: 2px; margin-top: -1px; background: rgba(255,255,255,0.3)"></div>
+    <div style="position: absolute; right: 6px; top: 50%; width: 8px; height: 2px; margin-top: -1px; background: rgba(255,255,255,0.3)"></div>
+    <div style="width: 48px; height: 48px; border-radius: 50%; background: #E9E4DA; box-shadow: 0 4px 14px rgba(0,0,0,0.5); transform: translate(12px, -6px)"></div>
+  </div>
+  <span style="position: absolute; left: 50px; bottom: 6px; font-size: 9px; font-weight: 700; letter-spacing: 0.16em; color: #A8A39B">MOVE · CIRCLE</span>
+
+  <div style="position: absolute; right: 18px; bottom: 16px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px">
+    <button aria-label="Jab" style="width: 58px; height: 58px; border-radius: 50%; border: 2px solid #3FB6FF; background: rgba(12,16,22,0.78); color: #F4F1EA; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; padding: 0">
+      <span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 17px; letter-spacing: 0.04em">JAB</span>
+      <span style="font-size: 8px; font-weight: 700; color: #9FD8FF">FAST</span>
+    </button>
+    <button aria-label="Cross, hold to charge" style="width: 58px; height: 58px; border-radius: 50%; border: 2px solid {{accent}}; background: rgba(22,10,12,0.78); color: #F4F1EA; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; padding: 0">
+      <span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 17px; letter-spacing: 0.04em">CROSS</span>
+      <span style="font-size: 8px; font-weight: 700; color: #FF9AA4">HOLD</span>
+    </button>
+    <button aria-label="Duck" style="width: 58px; height: 58px; border-radius: 50%; border: 2px solid #2DD4BF; background: rgba(8,20,18,0.78); color: #F4F1EA; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; padding: 0">
+      <svg aria-hidden="true" width="16" height="12" viewBox="0 0 16 12"><path d="M2 3 L8 9 L14 3" stroke="#2DD4BF" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 15px; letter-spacing: 0.04em">DUCK</span>
+    </button>
+    <button aria-label="Left kick, low" style="width: 58px; height: 58px; border-radius: 50%; border: 2px solid #F2B705; background: rgba(22,18,6,0.78); color: #F4F1EA; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; padding: 0">
+      <span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 16px; letter-spacing: 0.03em">L KICK</span>
+      <span style="font-size: 8px; font-weight: 700; color: #F8D56B">LOW</span>
+    </button>
+    <button aria-label="Right kick to the head, hold to charge" style="width: 58px; height: 58px; border-radius: 50%; border: 2px solid #FF7A1A; background: rgba(24,12,4,0.78); color: #F4F1EA; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; padding: 0">
+      <span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 16px; letter-spacing: 0.03em">R KICK</span>
+      <span style="font-size: 8px; font-weight: 700; color: #FFB27A">HEAD · HOLD</span>
+    </button>
+    <button aria-label="Block" style="width: 58px; height: 58px; border-radius: 50%; border: 2px solid #A9B4C6; background: rgba(14,16,20,0.78); color: #F4F1EA; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; padding: 0">
+      <svg aria-hidden="true" width="14" height="14" viewBox="0 0 14 14"><path d="M7 1 L12 3 V7 C12 10 9.5 12 7 13 C4.5 12 2 10 2 7 V3 Z" stroke="#A9B4C6" stroke-width="1.8" fill="none" stroke-linejoin="round"/></svg>
+      <span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 15px; letter-spacing: 0.04em">BLOCK</span>
+    </button>
+  </div>
+
+  <button aria-label="Pause" style="position: absolute; right: 18px; top: 92px; width: 40px; height: 40px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.14); background: rgba(10,10,12,0.6); display: flex; align-items: center; justify-content: center; gap: 4px; padding: 0">
+    <span style="width: 4px; height: 14px; background: #F4F1EA; border-radius: 1px"></span><span style="width: 4px; height: 14px; background: #F4F1EA; border-radius: 1px"></span>
+  </button>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#E5132B","options":["#E5132B","#F2B705","#22C55E","#A855F7"]},"$preview":{"width":844,"height":390}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return { accent: this.props.accent ?? '#E5132B' };
+  }
+}
+</script>
+</body>
+</html>
