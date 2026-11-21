@@ -200,7 +200,7 @@ html,body{margin:0;height:100%;background:var(--bg);color:var(--txt);font-family
  .pstg{display:grid;grid-template-columns:1fr auto 1fr;align-items:end;gap:10px;margin-top:12px}
  .psts{display:flex;flex-direction:column;align-items:flex-start;gap:8px;min-width:0}.psts.rt{align-items:flex-end;text-align:right}
  .pstf{width:min(100%,190px,30vh);aspect-ratio:1;border-radius:22px;overflow:hidden}.pstf svg{width:100%;height:100%;display:block}
- .pstk{font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--mut)}.pstn{font-family:var(--fd);font-weight:900;font-size:calc(clamp(30px,min(5.4vw,9vh),76px) * var(--nf,1));line-height:.85;white-space:nowrap}
+ .pstk{font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--mut)}.pstn{font-family:var(--fd);font-weight:900;font-size:calc(clamp(28px,min(4.2vw,7vh),58px) * var(--nf,1));line-height:.85;overflow:hidden;word-break:break-word}
  .pstv{font-family:var(--fd);font-weight:900;font-size:clamp(34px,4.5vw,60px);color:var(--gold);padding-bottom:22px}
  .pstb{display:flex;align-items:center;gap:10px;margin-top:14px;flex-wrap:wrap}.psttags{display:flex;gap:6px;flex-wrap:wrap}.pstx{flex:1;min-width:180px;font-size:12px;color:var(--mut)}.pstbt{display:flex;gap:8px}
  .pstoo{margin:16px 2px 8px}
@@ -2431,6 +2431,8 @@ function navMove(dx,dy){const L=navEls();if(!L.length)return;
   if(PAD.edit&&PF&&L.includes(PF)&&PF.type==='range'&&dx&&!dy){const st=+PF.step||1,mul=(PAD.nav.rep||0)>8?3:1,v=clamp(+PF.value+dx*st*mul,+PF.min,+PF.max);
     if(v!==+PF.value){PF.value=v;PF.dispatchEvent(new Event('input',{bubbles:true}));PF.dispatchEvent(new Event('change',{bubbles:true}));sUI()}return}
   if(!PF||!L.includes(PF)){let best=L[0];if(PFR){let bd=1e9;for(const e of L){const r=e.getBoundingClientRect(),d=Math.hypot(r.left-PFR.left,r.top-PFR.top);if(d<bd){bd=d;best=e}}}setPF(best);if(!dx&&!dy)return;if(!PFR)return}
+  // Falls PF durch Scrollen aus dem Sichtfeld geraten ist, nächstbestes sichtbares Element nehmen
+  {const pr=PF.getBoundingClientRect();if(pr.bottom<-10||pr.top>innerHeight+10){let best=null,bd=1e9,cy=innerHeight/2;for(const e of L){const r=e.getBoundingClientRect();if(r.bottom<0||r.top>innerHeight)continue;const d=Math.abs(r.top+r.height/2-cy);if(d<bd){bd=d;best=e}}if(best){setPF(best);if(!dx&&!dy)return}}}
   const a=PF.getBoundingClientRect(),ax=a.left+a.width/2,ay=a.top+a.height/2;let best=null,bs=1e9;
   for(const e of L){if(e===PF)continue;const r=e.getBoundingClientRect(),x=r.left+r.width/2-ax,y=r.top+r.height/2-ay,fw=x*dx+y*dy;if(fw<=6)continue;const sc=fw+Math.abs(x*dy-y*dx)*2.5;if(sc<bs){bs=sc;best=e}}
   if(best){setPF(best);sUI()}else if(dy)padScroll(dy*140)}
