@@ -4,7 +4,7 @@ name: CI
 # The Pages deploy calls this workflow too, so main is only published when the tests pass.
 on:
   push:
-    branches-ignore: [main]
+    branches-ignore: [main, testing]   # both run CI through the Pages deploy
   pull_request:
   workflow_call:
   workflow_dispatch:

@@ -2,7 +2,7 @@ name: Deploy game to GitHub Pages
 
 on:
   push:
-    branches: [main]
+    branches: [main, testing]
     paths:
       - "apps/game/**"
       - "tests/**"
@@ -31,10 +31,29 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout main (/)
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: main-branch
+      - name: Checkout testing (/v2/)
+        uses: actions/checkout@v4
+        continue-on-error: true   # a missing testing branch must not block production
+        with:
+          ref: testing
+          path: testing-branch
+      # Every Pages deploy replaces the whole site, so both versions ship together
+      - name: Assemble site
+        run: |
+          mkdir -p site
+          cp -r main-branch/apps/game/. site/
+          if [ -f testing-branch/apps/game/index.html ]; then
+            mkdir -p site/v2
+            cp -r testing-branch/apps/game/. site/v2/
+          fi
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v4
         with:
-          path: apps/game
+          path: site
       - id: deployment
         uses: actions/deploy-pages@v4
