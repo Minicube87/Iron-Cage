@@ -7,9 +7,10 @@ Runs in any modern browser on phone (landscape), laptop and TV, with touch, keyb
 
 ```
 apps/game/            the game – one self-contained index.html (Canvas + vanilla JS, no build step)
+tests/                syntax check, Playwright browser tests (tests/e2e) and balance matrix (tests/balance)
 deploy/docker/        nginx image that serves the game
 deploy/k8s/           Kubernetes manifests (Deployment, Service, Ingress); kustomization.yaml in the root builds the ConfigMap
-.github/workflows/    GitHub Pages deploy on every push to main
+.github/workflows/    CI on every branch/PR, Pages deploy on main (tests first), nightly balance run
 design/prototypes/    UI prototypes from Claude Design (.dc.html, open them in Claude Design)
 docs/                 plans and notes (e.g. the ground game roadmap)
 ```
@@ -53,6 +54,24 @@ cd apps/game && python3 -m http.server 8080
 | Fullscreen | ⛶ | ⌃⌘F / F11 | View |
 
 (Exact bindings are also shown in the in-game *How to play* panel and the Guide.)
+
+## Tests & CI
+
+```bash
+npm install
+npx playwright install chromium   # once
+npm test                          # syntax check + browser tests (~30 s)
+npm run test:balance              # AI-vs-AI balance matrix (slow, several minutes)
+```
+
+| Workflow | When | What |
+|---|---|---|
+| `ci.yml` | every push to a feature branch, every pull request | syntax check of the game script, Playwright tests: career flow, all hub tabs and layouts, rankings, 20 simulated weeks, guide/settings, controller (menu, on-screen keyboard, sliders, rankings, after a fight), screenshots in 3 sizes, render-time budget |
+| `pages.yml` | push to `main` | runs `ci.yml` first – the game is only published when every test passes |
+| `balance.yml` | nightly and on demand | every class vs. reference opponents with sides swapped; fails if a class leaves the 20–80 % window or a mirror match shows a side bias |
+
+Screenshots and reports are attached to each run as the `playwright-report` artifact.
+Tip: protect `main` (*Settings → Branches*) and require the **CI** checks before merging.
 
 ## Deploy
 
