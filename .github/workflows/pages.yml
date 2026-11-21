@@ -5,7 +5,8 @@ on:
     branches: [main, testing]
     paths:
       - "apps/game/**"
-      - ".github/workflows/pages.yml"
+      - "tests/**"
+      - ".github/workflows/**"
   workflow_dispatch:
 
 permissions:
@@ -18,39 +19,41 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  test:
+    name: Tests
+    uses: ./.github/workflows/ci.yml
+
   deploy:
+    name: Deploy
+    needs: test            # only publish when every test passed
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Checkout main (root)
+      - name: Checkout main (/)
         uses: actions/checkout@v4
         with:
           ref: main
           path: main-branch
-
-      - name: Checkout testing (v2)
+      - name: Checkout testing (/v2/)
         uses: actions/checkout@v4
+        continue-on-error: true   # a missing testing branch must not block production
         with:
           ref: testing
-          path: feature-branch
-        continue-on-error: true
-
+          path: testing-branch
+      # Every Pages deploy replaces the whole site, so both versions ship together
       - name: Assemble site
         run: |
           mkdir -p site
           cp -r main-branch/apps/game/. site/
-          if [ -d feature-branch/apps/game ]; then
+          if [ -f testing-branch/apps/game/index.html ]; then
             mkdir -p site/v2
-            cp -r feature-branch/apps/game/. site/v2/
+            cp -r testing-branch/apps/game/. site/v2/
           fi
-
       - uses: actions/configure-pages@v5
-
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v4
         with:
           path: site
-
       - id: deployment
         uses: actions/deploy-pages@v4

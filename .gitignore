@@ -5,3 +5,5 @@ node_modules/
 useForClaude
 .gitignore
 claude.md
+test-results/
+playwright-report/

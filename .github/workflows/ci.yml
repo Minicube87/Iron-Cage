@@ -1,0 +1,49 @@
+name: CI
+
+# Runs on every push to a feature branch and on every pull request.
+# The Pages deploy calls this workflow too, so main is only published when the tests pass.
+on:
+  push:
+    branches-ignore: [main, testing]   # both run CI through the Pages deploy
+  pull_request:
+  workflow_call:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  syntax:
+    name: Syntax check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - run: node tests/syntax.mjs
+
+  e2e:
+    name: Browser tests (Playwright)
+    needs: syntax
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e
+        env:
+          CI: "true"
+      - name: Upload report with screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 14
