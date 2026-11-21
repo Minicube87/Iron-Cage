@@ -2421,7 +2421,7 @@ function navRoot(){const vis=e=>e.classList.contains('on')&&e.getClientRects().l
 function navEls(){const r=navRoot();if(!r)return [];return [...r.querySelectorAll('button,summary,input,.camp,[data-fp],.cd.sat,.chip.sat,.gch .chip,.skn')].filter(e=>!e.disabled&&e.offsetParent!==null&&e.getBoundingClientRect().width>0&&!e.closest('#ctl,#wbar,#joyZ'))}
 function setPF(e){if(PAD.edit&&PAD.edit!==e)padEdit(null);if(PF)PF.classList.remove('padf');PF=e;if(!e)return;e.classList.add('padf');PFR=e.getBoundingClientRect();try{e.scrollIntoView({block:'nearest',inline:'nearest'})}catch(_){}}
 function padScroller(){const r=navRoot();if(!r)return null;
-  // position:fixed elements have offsetParent===null but are valid scrollers
+  // position:fixed hat offsetParent===null, scrollt aber trotzdem
   const ok=e=>{const st=getComputedStyle(e);return /(auto|scroll)/.test(st.overflowY)&&e.scrollHeight>e.clientHeight+4};
   for(let e=PF&&r.contains(PF)?PF:null;e&&e!==document.body;e=e.parentElement)if(ok(e))return e;
   if(ok(r))return r;
@@ -2436,9 +2436,13 @@ function navMove(dx,dy){const L=navEls();if(!L.length)return;
   if(!PF||!L.includes(PF)){let best=L[0];if(PFR){let bd=1e9;for(const e of L){const r=e.getBoundingClientRect(),d=Math.hypot(r.left-PFR.left,r.top-PFR.top);if(d<bd){bd=d;best=e}}}setPF(best);if(!dx&&!dy)return;if(!PFR)return}
   // Falls PF durch Scrollen aus dem Sichtfeld geraten ist, nächstbestes sichtbares Element nehmen
   {const pr=PF.getBoundingClientRect();if(pr.bottom<-10||pr.top>innerHeight+10){let best=null,bd=1e9,cy=innerHeight/2;for(const e of L){const r=e.getBoundingClientRect();if(r.bottom<0||r.top>innerHeight)continue;const d=Math.abs(r.top+r.height/2-cy);if(d<bd){bd=d;best=e}}if(best){setPF(best);if(!dx&&!dy)return}}}
-  const a=PF.getBoundingClientRect(),ax=a.left+a.width/2,ay=a.top+a.height/2;let best=null,bs=1e9;
-  for(const e of L){if(e===PF)continue;const r=e.getBoundingClientRect(),x=r.left+r.width/2-ax,y=r.top+r.height/2-ay,fw=x*dx+y*dy;if(fw<=6)continue;const sc=fw+Math.abs(x*dy-y*dx)*2.5;if(sc<bs){bs=sc;best=e}}
-  if(best){setPF(best);sUI()}else if(dy)padScroll(dy*140)}
+  const a=PF.getBoundingClientRect(),ax=a.left+a.width/2,ay=a.top+a.height/2;let best=null;
+  // Sticky-Spalten im Hub wandern beim Scrollen mit: Hoch/Runter bleibt deshalb in der eigenen Spalte
+  const tabs=navRoot().id==='s-hub'&&navRoot().querySelector('.hubg .tabs'),sticky=!!tabs&&getComputedStyle(tabs).position==='sticky',col=e=>e.closest('.tabs')?1:e.closest('.colA')?2:3;
+  const pick=same=>{let b=null,s=1e9;for(const e of L){if(e===PF||(same&&col(e)!==col(PF)))continue;const r=e.getBoundingClientRect(),x=r.left+r.width/2-ax,y=r.top+r.height/2-ay,fw=x*dx+y*dy;if(fw<=6)continue;const sc=fw+Math.abs(x*dy-y*dx)*2.5;if(sc<s){s=sc;b=e}}return b};
+  best=pick(sticky&&!!dy);
+  if(!best&&dy){if(padScroll(dy*140))return;if(sticky&&dy>0)best=pick(false)}
+  if(best){setPF(best);sUI()}}
 
 /* ===== Bildschirmtastatur für Controller (Name, Spitzname …) ===== */
 const OSK={el:null,inp:null,shift:false,auto:true};
