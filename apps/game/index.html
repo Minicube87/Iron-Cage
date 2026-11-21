@@ -891,7 +891,7 @@ function newCareer(name,nick,style,bio){
   persist();
 }
 const F=id=>id==='me'?save.me:save.fighters.find(f=>f.id===id);
-const rankOf=id=>save.order.indexOf(id);
+const rankOf=id=>save&&save.order?save.order.indexOf(id):-1;
 const rankLabel=i=>i===0?'C':i<=15?'#'+i:'NR';
 const fullName=f=>f.id==='me'?f.first:`${f.first} ${f.last||''}`.trim();
 const shortName=f=>f.id==='me'?f.first:f.last;
@@ -905,7 +905,7 @@ function renderMenu(){
     +it('mNew','＋','New career',m?'Start over – keep your stats or build a new fighter':'Create your fighter and start at the bottom',!m)
     +(SLOTS.list.length?it('mLoad','📂','Load career',`${SLOTS.list.length} saved career${SLOTS.list.length>1?'s':''}`):'')
     +(m?it('mLeg','⭐','Legends','Dream fights against '+LEG.length+' MMA icons · beaten '+Object.keys(save.legW||{}).filter(k=>LEGF(k)).length+'/'+LEG.length):'')
-    +(m?it('mVs','🎮','Local versus','2 players on one screen · controller or keyboard'):'')
+    +it('mVs','🎮','Local versus',m?'2 players on one screen · controller or keyboard':'2 players on one screen · pick from '+LEG.length+' legends')
     +it('mGuide','📖','Guide','Classes, matchups, tips and what to train first')
     +it('mSet','⚙️','Settings','Sound, fullscreen, controllers');
   $('#mFoot').textContent=CL.ref?'☁️ Careers are saved online · '+CLT:'Careers are saved on this device';
@@ -923,7 +923,7 @@ function renderMenu(){
     $('#nmRet').onclick=()=>{retireLegend()}});
   go('mLoad',openLoad);
   go('mLeg',()=>{renderLegends();show('s-legends');scrollTo(0,0)});
-  go('mVs',()=>{renderHub();show('s-hub');openVs()});
+  go('mVs',()=>{if(save&&save.me){renderHub();show('s-hub')}openVs()});
   go('mGuide',()=>{renderGuideScr();show('s-guide');scrollTo(0,0)});
   go('mSet',()=>{renderSet();show('s-set');scrollTo(0,0)});
 }
@@ -2360,7 +2360,8 @@ function showLegendRes(R,fa,fb,acc){
 function startLegend(id){const L=LEGF(id);let B=L;if(B.shorts===save.me.shorts)B={...B,shorts:SHORTS.find(c=>c!==save.me.shorts)};startFight(B,null,{vs:{A:save.me,B,cpu:true,rds:LGR,leg:id}})}
 /* ================= LOCAL VERSUS (2 Spieler an einem Gerät) ================= */
 const VS={a:0,b:1,cpu:false,rds:3};
-function vsPool(){const L=[{f:save.me,d:divOf()}];for(const id of save.order)if(id!=='me')L.push({f:F(id),d:divOf()});
+function vsPool(){if(!save||!save.me)return LEG.map(f=>({f,d:'LEG'}));   // ohne Karriere: die Legenden als Kämpfer
+  const L=[{f:save.me,d:divOf()}];for(const id of save.order)if(id!=='me')L.push({f:F(id),d:divOf()});
   for(const k of DIV_ORDER){const d=(save.other||{})[k];if(!d)continue;for(const id of d.order){const f=d.fighters.find(x=>x.id===id);if(f)L.push({f,d:k})}}for(const f of LEG)L.push({f,d:'LEG'});return L.filter(x=>x.f)}
 function openVs(){
   const P=vsPool();VS.a=clamp(VS.a,0,P.length-1);VS.b=clamp(VS.b,0,P.length-1);
@@ -2405,8 +2406,8 @@ function showVs(){
   $('#ov').classList.add('on');wireStats(fa,fb,'P1 · '+fa.name,(G.vs.cpu?'CPU · ':'P2 · ')+fb.name);
   const close=()=>{cancelAnimationFrame(G.raf);G=null;$('#ov').classList.remove('on')};
   $('#vAgain').onclick=()=>{close();startVs()};
-  $('#vNew').onclick=()=>{close();show('s-hub');renderHub();openVs()};
-  $('#bBack').onclick=()=>{close();show('s-hub');renderHub()};
+  $('#vNew').onclick=()=>{close();if(save&&save.me){show('s-hub');renderHub()}else{renderMenu();show('s-menu')}openVs()};
+  $('#bBack').onclick=()=>{close();if(save&&save.me){show('s-hub');renderHub()}else toMenu()};
 }
 
 /* ================= GAMEPAD (Xbox / Switch / PlayStation über die Standard-Belegung) ================= */

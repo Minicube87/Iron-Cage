@@ -5,7 +5,7 @@ test('main menu loads without errors', async ({ page }) => {
   const errors = trackErrors(page);
   await openFresh(page);
   await expect(page).toHaveTitle(/Iron Cage/);
-  await expect(page.locator('#mList .mitem')).toHaveCount(3); // New career, Guide, Settings
+  await expect(page.locator('#mList .mitem')).toHaveCount(4); // New career, Local versus, Guide, Settings
   expect(errors()).toEqual([]);
 });
 
@@ -83,5 +83,21 @@ test('guide and settings open from the main menu', async ({ page }) => {
   await page.click('#mSet');
   await expect(page.locator('#s-set.on')).toBeVisible();
   await expect(page.locator('#hlsSet [data-hl]')).toHaveCount(3);
+  expect(errors()).toEqual([]);
+});
+
+test('local versus works without a career (legends) and saves nothing', async ({ page }) => {
+  const errors = trackErrors(page);
+  await openFresh(page);
+  await page.click('#mVs');
+  await expect(page.locator('#md.on .vsn').first()).toBeVisible();
+  await page.click('#vCpu');
+  await page.click('#vGo');
+  await expect(page.locator('#s-fight.on')).toBeVisible();
+  await page.evaluate(() => window.IC.win('KO'));
+  await expect(page.locator('#vAgain')).toBeVisible({ timeout: 15_000 });
+  await page.click('#bBack');
+  await expect(page.locator('#s-menu.on')).toBeVisible();
+  expect(await page.evaluate(() => Object.keys(localStorage).filter(k => k !== 'ic_hublay'))).toEqual([]);
   expect(errors()).toEqual([]);
 });
