@@ -55,5 +55,8 @@ jobs:
       - uses: actions/upload-pages-artifact@v4
         with:
           path: site
+      # A fresh artifact can be listed before deploy-pages is able to fetch it
+      - name: Wait for artifact to become available
+        run: sleep 10
       - id: deployment
         uses: actions/deploy-pages@v4
